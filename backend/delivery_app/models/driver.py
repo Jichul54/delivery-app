@@ -15,3 +15,10 @@ class Driver(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.drivername
+
+
+class sales_office(models.Model):
+    salse_office_name = models.CharField(_('salse_office_name'), max_length=150, unique=True)
+
+class company(models.Model):
+    company_name = models.CharField(_('salse_office_name'), max_length=150, unique=True)
