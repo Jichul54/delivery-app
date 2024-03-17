@@ -13,7 +13,7 @@ def add_sales_office_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('delivery_app', '0005_dalivery_status_sales_office_driver'),
+        ('delivery_app', '0005_delivery_status_sales_office_driver'),
     ]
 
     operations = [
