@@ -16,7 +16,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('delivery_app', '0006_add_sales_office_data'),
     ]
-
-    operations = [
-        migrations.RunPython(add_driver_data)
-    ]
