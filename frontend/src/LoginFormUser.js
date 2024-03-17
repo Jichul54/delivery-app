@@ -1,15 +1,10 @@
-// import { useState } from "react";
 import { TextField, Button, Card, CardHeader, CardContent, Container } from '@mui/material';
 
-export default function LoginFormDriver() {
-
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-
+export default function LoginFormUser() {
   return (
-    <div className='Login_diver'>
+    <div className='Login_user'>
       <Container maxWidth='xs'>
-        <Card variant='outlined' sx={{ p:2, my:25 }}>
+        <Card variant='outlined' sx={{ p:2, mt:25, mb:20 }}>
           <CardHeader title='ログイン'/>
           <CardContent
             sx={{
@@ -40,9 +35,15 @@ export default function LoginFormDriver() {
             >
               ログイン
             </Button>
+            <Button
+              size='small'
+              sx={{ height:'50%' }}
+            >
+              アカウントをお持ちでない方
+            </Button>
           </CardContent>
         </Card>
       </Container>
     </div>
-  );
+  )
 }
