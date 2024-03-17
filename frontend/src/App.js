@@ -1,11 +1,11 @@
 // import logo from './logo.svg';
 import './App.css';
-import SettingPassword from './SettingPassword.js';
+import LoginFormUser from './LoginFormUser';
 
 function App() {
   return (
     <div className="App">
-      <SettingPassword></SettingPassword>
+      <LoginFormUser></LoginFormUser>
     </div>
   );
 }
