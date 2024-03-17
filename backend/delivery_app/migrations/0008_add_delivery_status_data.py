@@ -5,7 +5,7 @@ from django.db import migrations
 def add_delivery_status_data(apps, schema_editor):
     Delivery_status = apps.get_model('delivery_app','Delivery_status')
     delivery_status = Delivery_status(
-        derivery_status_name='test'
+        derivery_status_name='test1'
     )
     delivery_status.save()
 
@@ -16,5 +16,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_delivery_status_data)
+        migrations.RunPython(add_delivery_status_data),
     ]

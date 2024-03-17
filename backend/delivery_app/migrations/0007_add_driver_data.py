@@ -5,7 +5,7 @@ from django.db import migrations
 def add_driver_data(apps, schema_editor):
     Driver = apps.get_model('delivery_app','Driver')
     driver = Driver(
-        drivername = 'YAMADAHAITATU',
+        drivername = 'YAMADAHAITATUtarou',
         sales_office_id='1',
         role_id='1'
     )
@@ -18,5 +18,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_driver_data)
+        migrations.RunPython(add_driver_data),
     ]
