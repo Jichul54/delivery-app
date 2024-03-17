@@ -15,5 +15,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_company_data)
+        migrations.RunPython(add_company_data),
     ]
