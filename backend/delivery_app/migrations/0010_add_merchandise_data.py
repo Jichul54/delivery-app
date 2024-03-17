@@ -20,4 +20,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(add_merchandise_data)
     ]
-
