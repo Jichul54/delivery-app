@@ -1,10 +1,10 @@
 import { Container, Card, CardContent, TextField, Stack, CardHeader, Button } from '@mui/material';
 
-export const SignUpForm = () => {
+export default function SignUpForm() {
   return (
     <div className='SingUp'>
       <Container maxWidth='xs'>
-        <Card variant='outlined' sx={{ p:2, my:10 }}>
+        <Card variant='outlined' sx={{ pt:2, my:6 }}>
           <CardHeader title='新規会員登録'/>
           <CardContent
             sx={{
@@ -31,13 +31,13 @@ export const SignUpForm = () => {
             </Stack>
             <Stack direction='row' spacing={2}>
               <TextField
-                id='postcode'
+                id='post_code'
                 label='郵便番号'
                 variant='outlined'
                 size='medium'
                 required
               />
-              <Button　variant='outlined'>検索</Button>
+              <Button variant='outlined' sx={{ height:'75%' }}>検索</Button>
             </Stack>
             <TextField
               id='adress1'
@@ -67,12 +67,18 @@ export const SignUpForm = () => {
               required
             />
             <Button
-              size='small'
+              size='medium'
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
             >
               登録
+            </Button>
+            <Button
+              size='small'
+              sx={{ height:'50%' }}
+            >
+              既にアカウントをお持ちの場合
             </Button>
           </CardContent>
         </Card>
@@ -80,5 +86,3 @@ export const SignUpForm = () => {
     </div>
   )
 }
-
-export default SignUpForm;
