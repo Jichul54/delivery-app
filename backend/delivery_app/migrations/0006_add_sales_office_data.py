@@ -5,7 +5,7 @@ from django.db import migrations
 def add_sales_office_data(apps, schema_editor):
     Sales_office = apps.get_model('delivery_app','Sales_office')
     sales_office = Sales_office(
-        sales_office_name = 'Hokkaido',
+        sales_office_name = 'Hokkaid-',
         company_id='1'
     )
     sales_office.save()
@@ -17,5 +17,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_sales_office_data)
+        migrations.RunPython(add_sales_office_data),
     ]
