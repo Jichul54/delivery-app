@@ -14,18 +14,20 @@ class LoginVendorsView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        # ユーザーの認証を試みる
-        user = authenticate(username=username, password=password)
+        return Response({"username": username, "passoword": password}, status=status.HTTP_200_OK)
 
-        if user is not None:
-            # ユーザーが認証された場合、トークンを生成する
-            token, created = Token.objects.get_or_create(user=user)
+        # # ユーザーの認証を試みる
+        # user = authenticate(username=username, password=password)
 
-            # トークンを返す
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
-        else:
-            # ユーザーが認証されなかった場合はエラーを返す
-            return Response({"message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
+        # if user is not None:
+        #     # ユーザーが認証された場合、トークンを生成する
+        #     token, created = Token.objects.get_or_create(user=user)
+
+        #     # トークンを返す
+        #     return Response({"token": token.key}, status=status.HTTP_200_OK)
+        # else:
+        #     # ユーザーが認証されなかった場合はエラーを返す
+        #     return Response({"message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class DriversView(APIView):
     def get(self, request):
@@ -35,7 +37,16 @@ class DriversView(APIView):
         else:
             return Response({"error": "sales_office_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
+class UsersView(APIView):
+    def get(self, request):
+        address = request.GET.get('address')
+        if address:
+            return Response({"address": address},  status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "address not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        
+        return Response({"username": username, "passoword": password}, status=status.HTTP_200_OK)
