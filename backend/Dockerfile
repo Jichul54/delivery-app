@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 8080
 
 # GunicornなどのWSGIサーバーを起動
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "backend.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "delivery_app.wsgi:application"]
