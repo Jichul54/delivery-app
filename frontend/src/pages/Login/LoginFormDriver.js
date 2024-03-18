@@ -1,12 +1,11 @@
 // import { useState } from "react";
-import { Button, Card, CardHeader, CardContent, Container } from '@mui/material';
-import Textfield from '../../features/TextField';
+import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mui/material';
 import { buttonOnClick } from '../../functions/functions';
 
 export default function LoginFormDriver() {
 
-  // バックエンドに送る情報のid
-  const userInfo = ['username', 'password'];
+  const [user_id, setUser_id] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className='Login_diver'>
@@ -20,8 +19,22 @@ export default function LoginFormDriver() {
               gridTemplateRows: 'repeat(3, 1fr)'
             }}
           >
-            <Textfield id='username' label='ID' required={true}/>
-            <Textfield id='password' label='パスワード' required={true}/>
+            <TextField 
+              id='user_id' 
+              label='ID' 
+              size='medium'
+              value={ user_id }
+              required
+              onChange={(e) => setUser_id(e.target.value)}
+            />
+            <TextField 
+              id='password' 
+              label='パスワード'
+              size='medium'
+              value={ password }
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <Button
               size='small'
               color='primary'

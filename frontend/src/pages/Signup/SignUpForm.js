@@ -1,19 +1,19 @@
-import { Container, Card, CardContent, Stack, CardHeader, Button } from '@mui/material';
-import Textfield from '../../features/TextField';
+import { Container, Card, CardContent, Stack, CardHeader, Button, TextField } from '@mui/material';
 import getValues from '../../functions/functions';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function SignUpForm() {
   
   const navigate = useNavigate();
-
-  // バックエンドに送る情報
-  const userInfo = {
-    name: '',
-    post_code: '',
-    address: '',
-    email: ''
-  }
+  const [lastname, setLastname] = useState('');
+  const [firstname, setFirstname] = useState('');
+  // const [username, setUsername] = useState('');
+  const [post_code, setPost_code] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [buildings, setBuildings] = useState('');
+  const [email, setEmail] = useState('');
 
   // 登録ボタンクリック時
   function buttonOnClickCreate(userInfo) {
@@ -38,17 +38,66 @@ export default function SignUpForm() {
             }}
           >
             <Stack direction='row' spacing={2}>
-              <Textfield id='lastname' label='姓' required={true}/>
-              <Textfield id='firstname' label='名' required={true}/>
+              <TextField 
+                id='lastname' 
+                label='姓' 
+                size='medium'
+                value={ lastname }
+                required
+                onClick={(e) => setLastname(e.target.value)}
+              />
+              <TextField 
+                id='firstname' 
+                label='名'
+                size='medium'
+                value={ firstname }
+                required
+                onClick={(e) => setFirstname(e.target.value)}
+                />
             </Stack>
             <Stack direction='row' spacing={2}>
-              <Textfield id='post_code' label='郵便番号' required={true}/>
+              <TextField 
+                id='post_code' 
+                label='郵便番号' 
+                size='medium'
+                value={ post_code }
+                required
+                onClick={(e) => setPost_code(e.target.value)}
+              />
               <Button variant='outlined' sx={{height:'75%'}}>検索</Button>
             </Stack>
-            <Textfield id='adress1' label='市区町村' required={true}/>
-            <Textfield id='address2' label='番地' required={true}/>
-            <Textfield id='buildingname' label='マンション名など' required={false}/>
-            <Textfield id='email' label='メールアドレス' required={true}/>
+            <TextField 
+              id='adress1' 
+              label='市区町村' 
+              size='medium'
+              value={ address1 }
+              required
+              onClick={(e) => setAddress1(e.target.value)}
+            />
+            <TextField 
+              id='address2' 
+              label='番地' 
+              size='medium'
+              value={ address2 }
+              required
+              onClick={(e) => setAddress2(e.target.value)}
+            />
+            <TextField 
+              id='buildings' 
+              label='マンション名など' 
+              size='medium'
+              value={ buildings }
+              required
+              onClick={(e) => setBuildings(e.target.value)}
+            />
+            <TextField 
+              id='email' 
+              label='メールアドレス' 
+              size='medium'
+              value={ email }
+              required
+              onClick={(e) => setEmail(e.target.value)}
+            />
             <Button
               size='medium'
               color='primary'

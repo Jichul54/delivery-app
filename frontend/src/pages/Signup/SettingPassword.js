@@ -1,11 +1,11 @@
-import { Button, Card, CardHeader, CardContent, Container } from '@mui/material';
-import Textfield from '../../features/TextField';
+import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mui/material';
 import { buttonOnClick } from '../../functions/functions';
+import { useState } from 'react';
 
 export default function SettingPassword() {
 
-  // バックエンドの送る情報のid
-  const userInfo = ['password'];
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
   return (
     <div className='SettingPassword'>
@@ -19,8 +19,20 @@ export default function SettingPassword() {
               gridTemplateRows: 'repeat(3, 1fr)'
             }}
           >
-            <Textfield id='password' label='パスワード' required={true} />
-            <Textfield id='password2' label='再確認' required={true}/>
+            <TextField 
+              id='password' 
+              label='パスワード' 
+              value={ password }
+              required
+              onClick={(e) => setPassword(e.target.value)}
+            />
+            <TextField 
+              id='password2' 
+              label='再確認' 
+              value={ password2 }
+              required
+              onClick={(e) => setPassword2(e.target.value)}
+            />
             <Button
               size='small'
               color='primary'
