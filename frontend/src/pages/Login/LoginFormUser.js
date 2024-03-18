@@ -36,7 +36,11 @@ export default function LoginFormUser() {
             <Button
               size='small'
               sx={{ height:'50%' }}
+<<<<<<< HEAD
               onClick={() => {navigate('/createAccount')}}
+=======
+              onClick={() => {navigate('/CreateAccount')}}
+>>>>>>> 70808427252a34020612c84b9b810399065e5d12
             >
               アカウントをお持ちでない方
             </Button>
