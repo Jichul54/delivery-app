@@ -15,6 +15,16 @@ export default function SignUpForm() {
   const [email, setEmail] = useState('');
 
   const handleSubmit = async () => {
+    // 値が入っているかチェック
+    let values = [lastname, firstname, post_code, address1, address2, email];
+    for (let i in values) {
+      console.log(values[i]);
+      if (!values[i]) {
+        alert('必須項目の値を入力してください。');
+        return;
+      }
+    }
+
     // API呼び出し
   }
 
@@ -96,7 +106,7 @@ export default function SignUpForm() {
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
-              onChange={handleSubmit}
+              onClick={handleSubmit}
             >
               登録
             </Button>
