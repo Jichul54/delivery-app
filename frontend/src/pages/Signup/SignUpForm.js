@@ -15,10 +15,10 @@ export default function SignUpForm() {
   const [email, setEmail] = useState('');
 
   const handleSubmit = async () => {
-    // 値が入っているかチェック
+    // バリデーション確認
     let values = [lastname, firstname, post_code, address1, address2, email];
     for (let i in values) {
-      console.log(values[i]);
+      console.log(i, values[i]);
       if (!values[i]) {
         alert('必須項目の値を入力してください。');
         return;
@@ -113,7 +113,7 @@ export default function SignUpForm() {
             <Button
               size='small'
               sx={{ height:'50%' }}
-              onClick={() => {navigate('/')}}
+              onClick={() => {navigate('/login-users')}}
             >
               既にアカウントをお持ちの場合
             </Button>

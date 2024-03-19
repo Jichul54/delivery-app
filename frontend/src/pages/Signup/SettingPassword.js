@@ -7,6 +7,18 @@ export default function SettingPassword() {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
+  const handleSubmit = async () => {
+    // バリデーション確認
+    let values = [password, password2];
+    for (let i in values) {
+      if (!values) {
+        alert('パスワードを入力してください。');
+        return;
+      }
+    }
+    // API呼び出し
+  }
+
   return (
     <div className='SettingPassword'>
       <Container maxWidth='sm'>
@@ -38,7 +50,7 @@ export default function SettingPassword() {
               color='primary'
               variant='contained'
               sx={{ mx:20 }}
-              onClick={() => {buttonOnClick(userInfo, document)}}
+              onClick={handleSubmit}
             >
               登録
             </Button>
