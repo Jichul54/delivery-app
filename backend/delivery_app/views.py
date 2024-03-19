@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models.user import User
 from .serializers import UserSerializer
-from django.contrib.auth import authenticate
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 class TestAPIView(APIView):
     def get(self, request, format=None):
@@ -32,6 +33,9 @@ class LoginVendorsView(APIView):
         #     return Response({"message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class DriversView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         sales_office_id = request.GET.get('sales_office_id')
         if sales_office_id:
@@ -40,9 +44,9 @@ class DriversView(APIView):
             return Response({"error": "sales_office_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
 class UsersView(APIView):
-    # permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
