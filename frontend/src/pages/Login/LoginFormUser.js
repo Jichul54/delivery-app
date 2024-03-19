@@ -1,13 +1,26 @@
 import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mui/material';
-import { buttonOnClick } from '../../functions/functions';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { postUserLoginInfo } from '../../api/login-users';
 
 export default function LoginFormUser() {
 
   const navigate = useNavigate();
+
   const [user_id, setUser_id] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleSubmit = async () => {
+    // API呼び出し
+    const result = await postUserLoginInfo(user_id, password);
+    if (result) {
+      // 成功時
+      alert(`ログイン成功: ${result.user_id} ${result.password}`);
+    } else {
+      // 失敗時
+      alert('ログイン失敗')
+    }
+  }
 
   return (
     <div className='Login_user'>
@@ -42,14 +55,14 @@ export default function LoginFormUser() {
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
-              onClick={() => buttonOnClick(userInfo, document)}
+              onClick={handleSubmit}
             >
               ログイン
             </Button>
             <Button
               size='small'
               sx={{ height:'50%' }}
-              onClick={() => {navigate('/createAccount')}}
+              onClick={() => {navigate('/users')}}
             >
               アカウントをお持ちでない方
             </Button>

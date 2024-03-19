@@ -1,11 +1,23 @@
-// import { useState } from "react";
+import { useState } from "react";
 import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mui/material';
-import { buttonOnClick } from '../../functions/functions';
+import { postDriverLoginInfo } from '../../api/login-vendors';
 
 export default function LoginFormDriver() {
 
   const [user_id, setUser_id] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleSubmit = async () => {
+    // API呼び出し
+    const result = await postDriverLoginInfo(user_id, password);
+    if (result) {
+      // 成功時
+      alert(`ログイン成功: ${result.user_id} ${result.password}`);
+    } else {
+      // 失敗時
+      alert('ログイン失敗')
+    }
+  }
 
   return (
     <div className='Login_diver'>
@@ -40,7 +52,7 @@ export default function LoginFormDriver() {
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
-              onClick={() => buttonOnClick(userInfo, document)}
+              onClick={handleSubmit}
             >
               ログイン
             </Button>

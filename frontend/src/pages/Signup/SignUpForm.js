@@ -1,5 +1,4 @@
 import { Container, Card, CardContent, Stack, CardHeader, Button, TextField } from '@mui/material';
-import getValues from '../../functions/functions';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -15,14 +14,8 @@ export default function SignUpForm() {
   const [buildings, setBuildings] = useState('');
   const [email, setEmail] = useState('');
 
-  // 登録ボタンクリック時
-  function buttonOnClickCreate(userInfo) {
-    const values = getValues(['lastname', 'firstname', 'post_code', 'address1', 'address2', 'buiuldingname', 'email'], document)
-    userInfo.name = values[0] + values[1];
-    userInfo.post_code = values[2];
-    userInfo.address = values[3] + values[4] + values[5];
-    userInfo.email = values[6];
-    console.log(userInfo);
+  const handleSubmit = async () => {
+    // API呼び出し
   }
 
   return (
@@ -103,7 +96,7 @@ export default function SignUpForm() {
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
-              onClick={() => buttonOnClickCreate(userInfo)}
+              onClick={handleSubmit}
             >
               登録
             </Button>
