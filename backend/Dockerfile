@@ -17,5 +17,7 @@ COPY . .
 # コンテナ内のポートを8080に設定
 EXPOSE 8080
 
+RUN python manage.py migrate
+
 # GunicornなどのWSGIサーバーを起動
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "delivery_app.wsgi:application"]
