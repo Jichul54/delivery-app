@@ -30,9 +30,10 @@ class Migration(migrations.Migration):
             name='Driver',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('drivername', models.CharField(max_length=150, unique=True, verbose_name='drivername')),
-                ('role_id', models.IntegerField(verbose_name='role_id')),
                 ('sales_office', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='delivery_app.sales_office')),
+                ('role_id', models.IntegerField(verbose_name='role_id')),
+                ('drivername', models.CharField(max_length=150, unique=True, verbose_name='drivername')),
+                ('password', models.CharField(max_length=150, unique=True, verbose_name='password')),
             ],
         ),
     ]
