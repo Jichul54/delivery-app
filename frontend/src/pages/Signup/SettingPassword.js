@@ -24,14 +24,14 @@ export default function SettingPassword() {
               label='パスワード' 
               value={ password }
               required
-              onClick={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <TextField 
               id='password2' 
               label='再確認' 
               value={ password2 }
               required
-              onClick={(e) => setPassword2(e.target.value)}
+              onChange={(e) => setPassword2(e.target.value)}
             />
             <Button
               size='small'

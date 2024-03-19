@@ -40,7 +40,7 @@ export default function LoginFormUser() {
               size='medium'
               value={ user_id }
               required
-              onClick={(e) => setUser_id(e.target.value)}
+              onChange={(e) => setUser_id(e.target.value)}
             />
             <TextField 
               id='password' 
@@ -48,7 +48,7 @@ export default function LoginFormUser() {
               size='medium'
               value={ password }
               required
-              onClick={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               size='small'

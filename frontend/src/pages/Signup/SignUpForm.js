@@ -37,7 +37,7 @@ export default function SignUpForm() {
                 size='medium'
                 value={ lastname }
                 required
-                onClick={(e) => setLastname(e.target.value)}
+                onChange={(e) => setLastname(e.target.value)}
               />
               <TextField 
                 id='firstname' 
@@ -45,7 +45,7 @@ export default function SignUpForm() {
                 size='medium'
                 value={ firstname }
                 required
-                onClick={(e) => setFirstname(e.target.value)}
+                onChange={(e) => setFirstname(e.target.value)}
                 />
             </Stack>
             <Stack direction='row' spacing={2}>
@@ -55,7 +55,7 @@ export default function SignUpForm() {
                 size='medium'
                 value={ post_code }
                 required
-                onClick={(e) => setPost_code(e.target.value)}
+                onChange={(e) => setPost_code(e.target.value)}
               />
               <Button variant='outlined' sx={{height:'75%'}}>検索</Button>
             </Stack>
@@ -65,7 +65,7 @@ export default function SignUpForm() {
               size='medium'
               value={ address1 }
               required
-              onClick={(e) => setAddress1(e.target.value)}
+              onChange={(e) => setAddress1(e.target.value)}
             />
             <TextField 
               id='address2' 
@@ -73,7 +73,7 @@ export default function SignUpForm() {
               size='medium'
               value={ address2 }
               required
-              onClick={(e) => setAddress2(e.target.value)}
+              onChange={(e) => setAddress2(e.target.value)}
             />
             <TextField 
               id='buildings' 
@@ -81,7 +81,7 @@ export default function SignUpForm() {
               size='medium'
               value={ buildings }
               required
-              onClick={(e) => setBuildings(e.target.value)}
+              onChange={(e) => setBuildings(e.target.value)}
             />
             <TextField 
               id='email' 
@@ -89,14 +89,14 @@ export default function SignUpForm() {
               size='medium'
               value={ email }
               required
-              onClick={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Button
               size='medium'
               color='primary'
               variant='contained'
               sx={{ mx:10 }}
-              onClick={handleSubmit}
+              onChange={handleSubmit}
             >
               登録
             </Button>
