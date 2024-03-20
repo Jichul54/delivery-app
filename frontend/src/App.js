@@ -4,6 +4,7 @@ import LoginFormUser from './pages/Login/LoginFormUser';
 import Test from './pages/Test/Test';
 import LoginFormDriver from './pages/Login/LoginFormDriver';
 import Main from './pages/Main';
+import RegisteringPackages from './pages/Registering Packages/RegisteringPackages';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path={`/users`} element={<SignUpForm />} />
         <Route path={`/login-vendors`} element={<LoginFormDriver />} />
         <Route path={`/login-users`} element={<LoginFormUser />} />
+        <Route path={`/registering-packages`} element={<RegisteringPackages />} />
         <Route path={`/test`} element={<Test />} />
       </Routes>
     </BrowserRouter>

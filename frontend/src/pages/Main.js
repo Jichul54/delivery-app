@@ -15,6 +15,9 @@ const Main = () => {
       <Button onClick={() => {navigate(`/users`)}}>
         ユーザーサインアップ
       </Button>
+      <Button onClick={() => {navigate(`/registering-packages`)}}>
+        荷物登録画面
+      </Button>
       <Button onClick={() => {navigate(`/test`)}}>
         テスト
       </Button>
