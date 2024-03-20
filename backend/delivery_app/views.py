@@ -50,3 +50,4 @@ class UsersView(APIView):
         password = request.data.get('password')
         
         return Response({"username": username, "passoword": password}, status=status.HTTP_200_OK)
+
