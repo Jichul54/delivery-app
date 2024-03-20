@@ -15,7 +15,6 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-PROJECT_DIR = BASE_DIR.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,17 +32,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'delivery_app',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'delivery_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_DIR, 'frontend/build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +73,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'delivery_app.wsgi.application'
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000", 
+]
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -82,6 +90,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'delivery_app.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -118,10 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'frontend/build/static'),
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

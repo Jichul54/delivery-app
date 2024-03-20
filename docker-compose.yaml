@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    # 他の設定オプションもここに追加することができます
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    # 他の設定オプションもここに追加することができます
