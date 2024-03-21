@@ -14,26 +14,9 @@ class TestAPIView(APIView):
         data = {"message": "Hello from Django!"}
         return Response(data, status=status.HTTP_200_OK)
 
-class LoginVendorsView(APIView):
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        return Response({"username": username, "passoword": password}, status=status.HTTP_200_OK)
-
-        # # ユーザーの認証を試みる
-        # user = authenticate(username=username, password=password)
-
-        # if user is not None:
-        #     # ユーザーが認証された場合、トークンを生成する
-        #     token, created = Token.objects.get_or_create(user=user)
-
-        #     # トークンを返す
-        #     return Response({"token": token.key}, status=status.HTTP_200_OK)
-        # else:
-        #     # ユーザーが認証されなかった場合はエラーを返す
-        #     return Response({"message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
-
+###########################
+# ドライバー処理（Order）
+###########################
 class DriversView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -44,14 +27,18 @@ class DriversView(APIView):
             return Response({"sales_office_id": sales_office_id},  status=status.HTTP_200_OK)
         else:
             return Response({"error": "sales_office_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
-
+###########################
+# ユーザリスト取得処理（/users）
+###########################
 class UsersListView(APIView):
     def get(self, request, *args, **kwargs):
         users = User.objects.all()
         # serializer = UserSerializer(users, many=True)
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
-
+###########################
+# ユーザ単体処理（/user）
+###########################
 class UserView(APIView):
     def get(self, request):
         email = request.GET.get('email')
@@ -65,7 +52,9 @@ class UserView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+###########################
+# ログイン処理（/token）
+###########################
 class CreateTokenView(APIView):
     def post(self, request):
         email = request.data.get('email')
@@ -84,6 +73,9 @@ class CreateTokenView(APIView):
             # ユーザーが存在しない場合、エラーメッセージを返す
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
+###########################
+# 注文処理（/order）
+###########################
 class OrderView(APIView):
     def get(self, request):
         user_id = request.GET.get('user_id')
