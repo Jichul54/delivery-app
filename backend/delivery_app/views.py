@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models.user import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserListSerializer
+from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -43,13 +44,19 @@ class DriversView(APIView):
         else:
             return Response({"error": "sales_office_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-class UsersView(APIView):
-
+class UsersListView(APIView):
     def get(self, request, *args, **kwargs):
-
         users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        # serializer = UserSerializer(users, many=True)
+        serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
+
+class UserView(APIView):
+    def get(self, request):
+        email = request.GET.get('email')
+        user = get_object_or_404(User, email=email)
+        serializer = UserListSerializer(user, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
@@ -58,18 +65,19 @@ class UsersView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CustomTokenObtainPairView(APIView):
+class CreateTokenView(APIView):
     def post(self, request):
-        username = request.data.get('username')
+        email = request.data.get('email')
 
         try:
             # ユーザーを認証する
-            user = User.objects.get(username=username)
+            # user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
 
             # トークンを生成する
-            token, created = Token.objects.get_or_create(user=user)
+            token = Token.objects.get_or_create(user=user)
             # トークンを返す
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
+            return Response({"token": token.key, "role": "role-number", "id": user.id}, status=status.HTTP_200_OK)
         
         except User.DoesNotExist:
             # ユーザーが存在しない場合、エラーメッセージを返す
