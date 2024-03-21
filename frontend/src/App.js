@@ -1,14 +1,21 @@
-import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import SignUpForm from './pages/Signup/SignUpForm';
+import LoginFormUser from './pages/Login/LoginFormUser';
+import Test from './pages/Test/Test';
+import LoginFormDriver from './pages/Login/LoginFormDriver';
+import Main from './pages/Main';
 
 function App() {
-  useEffect(() => {
-    fetch('/api/test/')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error fetching data: ', error));
-  }, []);
-
-  return <div>Check the console for the API response.</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={`/`} element={<Main />} />
+        <Route path={`/users`} element={<SignUpForm />} />
+        <Route path={`/login-vendors`} element={<LoginFormDriver />} />
+        <Route path={`/login-users`} element={<LoginFormUser />} />
+        <Route path={`/test`} element={<Test />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
 export default App;
