@@ -4,15 +4,15 @@ import { postDriverLoginInfo } from '../../api/login-vendors';
 
 export default function LoginFormDriver() {
 
-  const [user_id, setUser_id] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async () => {
     // API呼び出し
-    const result = await postDriverLoginInfo(user_id, password);
+    const result = await postDriverLoginInfo(email, password);
     if (result) {
       // 成功時
-      alert(`ログイン成功: ${result.user_id} ${result.password}`);
+      alert(`ログイン成功: ${result.email} ${email.password}`);
     } else {
       // 失敗時
       alert('ログイン失敗')
@@ -23,7 +23,7 @@ export default function LoginFormDriver() {
     <div className='Login_diver'>
       <Container maxWidth='xs'>
         <Card variant='outlined' sx={{ p:2, my:25 }}>
-          <CardHeader title='ログイン'/>
+          <CardHeader title='ログイン' sx={{ textAlign:'center' }}/>
           <CardContent
             sx={{
               display: 'grid',
@@ -32,12 +32,12 @@ export default function LoginFormDriver() {
             }}
           >
             <TextField 
-              id='user_id' 
-              label='ID' 
+              id='email' 
+              label='Eメール' 
               size='medium'
-              value={ user_id }
+              value={ email }
               required
-              onChange={(e) => setUser_id(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField 
               id='password' 

@@ -7,15 +7,15 @@ export default function LoginFormUser() {
 
   const navigate = useNavigate();
 
-  const [user_id, setUser_id] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async () => {
     // API呼び出し
-    const result = await postUserLoginInfo(user_id, password);
+    const result = await postUserLoginInfo(email, password);
     if (result) {
       // 成功時
-      alert(`ログイン成功: ${result.user_id} ${result.password}`);
+      alert(`ログイン成功: ${result.email} ${result.password}`);
     } else {
       // 失敗時
       alert('ログイン失敗')
@@ -26,7 +26,7 @@ export default function LoginFormUser() {
     <div className='Login_user'>
       <Container maxWidth='xs'>
         <Card variant='outlined' sx={{ p:2, mt:25, mb:20 }}>
-          <CardHeader title='ログイン'/>
+          <CardHeader title='ログイン' sx={{ textAlign:'center' }}/>
           <CardContent
             sx={{
               display: 'grid',
@@ -35,12 +35,12 @@ export default function LoginFormUser() {
             }}
           >
             <TextField 
-              id='user_id' 
-              label='ID' 
+              id='email' 
+              label='メールアドレス' 
               size='medium'
-              value={ user_id }
+              value={ email }
               required
-              onChange={(e) => setUser_id(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField 
               id='password' 
