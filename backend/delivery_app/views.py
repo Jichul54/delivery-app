@@ -2,12 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models.user import User
-from .serializers import UserSerializer, UserListSerializer, OrderSerializer
+from .models import User, Order, Delivery
+from .serializers import UserSerializer, UserListSerializer, OrderSerializer, DeliverySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models.order import Order
+from django.db.models import Q
 
 class TestAPIView(APIView):
     def get(self, request, format=None):
@@ -114,3 +114,31 @@ class OrderView(APIView):
         
         order.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+###########################
+# 配達処理（/delivery）
+###########################
+class DeliveryView(APIView):
+    def get(self, request):
+        delivery_date = request.GET.get('delivery_date')
+        
+        # 指定された配達日の配達情報を取得
+        deliveries = Delivery.objects.filter(order__delivery_date=delivery_date)
+        
+        # 配達情報をシリアライズしてレスポンス
+        serializer = DeliverySerializer(deliveries, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        # 配達情報を作成
+        serializer = DeliverySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
