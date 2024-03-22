@@ -4,6 +4,8 @@ from django.db import migrations
 
 def add_merchandise_data(apps, schema_editor):
     Merchandise = apps.get_model('delivery_app','Merchandise')
+
+
     sales_office = Merchandise(
         company_id='1',
         merchandise_name = 'onigiri',
