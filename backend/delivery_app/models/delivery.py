@@ -5,7 +5,7 @@ from .delivery_status import Delivery_Status
 from .order import Order
 
 class Delivery(models.Model):
-    user = models.ForeignKey(User.objects.get(role_id__contains ="3"), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     delivery_status = models.ForeignKey(Delivery_Status, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     delivery_route_no = models.CharField(_('delivery_route_no'), max_length=200)
