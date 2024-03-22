@@ -1,18 +1,18 @@
+import * as React from 'react';
 import { Container, Card, CardContent, Stack, CardHeader, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 export default function SignUpForm() {
   
   const navigate = useNavigate();
-  const [lastname, setLastname] = useState('');
-  const [firstname, setFirstname] = useState('');
-  // const [username, setUsername] = useState('');
-  const [post_code, setPost_code] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [buildings, setBuildings] = useState('');
-  const [email, setEmail] = useState('');
+  const [lastname, setLastname] = React.useState('');
+  const [firstname, setFirstname] = React.useState('');
+  // const [username, setUsername] = React.useState('');
+  const [post_code, setPost_code] = React.useState('');
+  const [address1, setAddress1] = React.useState('');
+  const [address2, setAddress2] = React.useState('');
+  const [buildings, setBuildings] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
   const handleSubmit = async () => {
     // バリデーション確認

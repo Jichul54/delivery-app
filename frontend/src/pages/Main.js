@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +16,7 @@ const Main = () => {
       <Button onClick={() => {navigate(`/users`)}}>
         ユーザーサインアップ
       </Button>
-      <Button onClick={() => {navigate(`/registering-packages`)}}>
+      <Button onClick={() => {navigate(`/register-package-info`)}}>
         荷物登録画面
       </Button>
       <Button onClick={() => {navigate(`/test`)}}>
