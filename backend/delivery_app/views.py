@@ -32,17 +32,24 @@ class DriversView(APIView):
 ###########################
 class UsersListView(APIView):
     def get(self, request, *args, **kwargs):
-        users = User.objects.all()
-        # serializer = UserSerializer(users, many=True)
+        post_code = request.GET.get('post_code')
+        address = request.GET.get('address')
+        if post_code is None and address is None:
+            users = User.objects.all()
+        elif post_code is None:
+            users = User.objects.filter(address=address)
+        elif address is None:
+            users = User.objects.filter(post_code=post_code)
+        else:
+            users = User.objects.filter(post_code=post_code, address=address)
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
 ###########################
 # ユーザ単体処理（/user）
 ###########################
 class UserView(APIView):
-    def get(self, request):
-        email = request.GET.get('email')
-        user = get_object_or_404(User, email=email)
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
         serializer = UserListSerializer(user, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -58,14 +65,13 @@ class UserView(APIView):
 class CreateTokenView(APIView):
     def post(self, request):
         email = request.data.get('email')
-
         try:
             # ユーザーを認証する
             # user = User.objects.get(username=username)
             user = User.objects.get(email=email)
 
             # トークンを生成する
-            token = Token.objects.get_or_create(user=user)
+            token, created = Token.objects.get_or_create(user=user)
             # トークンを返す
             return Response({"token": token.key, "role": "role-number", "id": user.id}, status=status.HTTP_200_OK)
         
@@ -79,8 +85,12 @@ class CreateTokenView(APIView):
 class OrderView(APIView):
     def get(self, request):
         user_id = request.GET.get('user_id')
-        # 全ての注文を取得
-        orders = Order.objects.filter(user=user_id)
+
+        if user_id is None:
+            orders = Order.objects.all()
+        else:
+            orders = Order.objects.filter(user=user_id)
+
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
@@ -121,9 +131,16 @@ class OrderView(APIView):
 class DeliveryView(APIView):
     def get(self, request):
         delivery_date = request.GET.get('delivery_date')
+        user_id = request.GET.get('user_id')
         
-        # 指定された配達日の配達情報を取得
-        deliveries = Delivery.objects.filter(order__delivery_date=delivery_date)
+        if delivery_date is None:
+           deliveries = Delivery.objects.filter(user=user_id)
+        elif user_id is None:
+            deliveries = Delivery.objects.filter(order__delivery_date=delivery_date)
+        elif delivery_date is None and user_id is None:
+            deliveries = Delivery.objects.all()
+        else:
+            deliveries = Delivery.objects.filter(order__delivery_date=delivery_date, user=user_id)
         
         # 配達情報をシリアライズしてレスポンス
         serializer = DeliverySerializer(deliveries, many=True)
@@ -131,7 +148,12 @@ class DeliveryView(APIView):
 
     def post(self, request):
         # 配達情報を作成
-        serializer = DeliverySerializer(data=request.data)
+        post_data = {
+            'delivery_route_no': 1,
+            'delivery_status': 1,
+            **request.data  # 既存のデータも含める
+        }
+        serializer = DeliverySerializer(data=post_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
