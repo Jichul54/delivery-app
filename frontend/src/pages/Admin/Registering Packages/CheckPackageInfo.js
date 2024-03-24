@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Stack, Button, Backdrop, Dialog, DialogTitle, DialogActions, Card, CardContent, CardHeader, Typography, Divider, Avatar } from '@mui/material';
-import TopBar from '../../components/TopBar';
-import StepperTop from '../../components/Stepper';
+import AppBarAdmin from '../../../components/AppBar_Admin';
+import StepperTop from '../../../components/Stepper';
 import { useNavigate } from 'react-router-dom';
 
 export default function CheckPackageInfo() {
@@ -33,7 +33,7 @@ export default function CheckPackageInfo() {
 
   return (
     <div>
-      <TopBar />
+      <AppBarAdmin />
       <Box sx={{ display:'flex', mt:'120px', mb:'60px', justifyContent:'center' }}>
         <Box sx={{ width:'75%' }}>
           <StepperTop activeStep={1} />

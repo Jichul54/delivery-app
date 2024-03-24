@@ -19,6 +19,12 @@ const Main = () => {
       <Button onClick={() => {navigate(`/register-package-info`)}}>
         荷物登録画面
       </Button>
+      <Button onClick={() => {navigate(`/check-admin`)}}>
+        管理者確認画面
+      </Button>
+      <Button onClick={() => {navigate(`deliver-items`)}}>
+        配達画面
+      </Button>
       <Button onClick={() => {navigate(`/test`)}}>
         テスト
       </Button>

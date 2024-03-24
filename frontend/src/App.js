@@ -5,9 +5,12 @@ import LoginFormUser from './pages/Login/LoginFormUser';
 import Test from './pages/Test/Test';
 import LoginFormDriver from './pages/Login/LoginFormDriver';
 import Main from './pages/Main';
-import RegisterPackageInfo from './pages/Registering Packages/RegisterPackageInfo';
-import CheckPackageInfo from './pages/Registering Packages/CheckPackageInfo';
-import ConfirmPackageInfo from './pages/Registering Packages/ConfirmPackageInfo';
+import RegisterPackageInfo from './pages/Admin/Registering Packages/RegisterPackageInfo';
+import CheckPackageInfo from './pages/Admin/Registering Packages/CheckPackageInfo';
+import ConfirmPackageInfo from './pages/Admin/Registering Packages/ConfirmPackageInfo';
+import Home from './pages/Home';
+import CheckAdmin from './pages/Admin/CheckAdmin/CheckAdmin';
+import DeliverItems from './pages/Drivers/DeliverItems';
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
         <Route path={`/register-package-info`} element={<RegisterPackageInfo />} />
         <Route path={`/check-package-info`} element={<CheckPackageInfo />} />
         <Route path={`/confirm-package-info`} element={<ConfirmPackageInfo />} />
+        <Route path={`/check-admin`} element={<CheckAdmin />} />
+        <Route path={`/deliver-items`} element={<DeliverItems />}/>
+        <Route path={`/home`} element={<Home />} />
         <Route path={`/test`} element={<Test />} />
       </Routes>
     </BrowserRouter>

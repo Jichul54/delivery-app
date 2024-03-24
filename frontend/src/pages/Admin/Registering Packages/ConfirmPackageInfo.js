@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { Box, Card, CardHeader, CardContent, Stack, Typography, Divider, Avatar } from '@mui/material';
-import TopBar from '../../components/TopBar';
-import StepperTop from '../../components/Stepper';
+import { Box, Card, CardHeader, CardContent, Stack, Typography, Divider, Avatar, Button } from '@mui/material';
+import AppBarAdmin from '../../../components/AppBar_Admin';
+import StepperTop from '../../../components/Stepper';
+import { useNavigate } from 'react-router-dom';
 
 export default function ConfirmPackageInfo() {
+
+  const navigate = useNavigate();
 
   // 名前と住所リスト
   const packages = [
@@ -14,7 +17,7 @@ export default function ConfirmPackageInfo() {
 
   return (
     <div>
-      <TopBar />
+      <AppBarAdmin />
       <Box sx={{ display:'flex', mt:'120px', mb:'60px', justifyContent:'center' }}>
       <Box sx={{ width:'75%' }}>
         <StepperTop activeStep={2} />
@@ -44,6 +47,16 @@ export default function ConfirmPackageInfo() {
                   </Stack>
                 </CardContent>
               </Card>
+              <Box sx={{ display:'flex', justifyContent:'center' }}>
+                <Button
+                  size='large'
+                  color='primary'
+                  variant='contained'
+                  onClick={() => navigate(`/home`)}
+                >
+                  ホーム
+                </Button>
+              </Box>
             </Stack>
           </Box>
         </Box>

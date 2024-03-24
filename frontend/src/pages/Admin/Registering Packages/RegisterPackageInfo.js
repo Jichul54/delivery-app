@@ -1,12 +1,45 @@
 import * as React from 'react';
 import { Box, Typography, Button, TextField, Stack, Select, InputLabel, MenuItem, FormControl } from '@mui/material';
-import TopBar from '../../components/TopBar';
-import StepperTop from '../../components/Stepper';
+import AppBarAdmin from '../../../components/AppBar_Admin';
+import StepperTop from '../../../components/Stepper';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPackageInfo() {
 
   const navigate = useNavigate();
+
+  // データ
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     user_name: '受取人名前',
+  //     address: '住所',
+  //     driver_name: '配送担当者',
+  //     delivery_status_id: '配達ステータス'
+  //   }
+
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
+
+  // handleClick(name, address, ) {
+
+  //   this.setState({
+  //     user_name: name,
+  //     address: this.state.address,
+  //     driver_name: this.state.driver_name,
+  //     delivery_status_id: this.state.delivery_status_id
+  //   })
+
+  //   this.props.history.push({
+  //     pathname: `check-package-info`,
+  //     state: {
+  //       user_name: this.state.user_name,
+  //       address: this.state.address,
+  //       driver_name: this.state.driver_name,
+  //       delivery_status_id: this.state.delivery_status_id
+  //     }
+  //   })
+  // }
 
   // 荷物の情報管理
   const [name, setName] = React.useState('');
@@ -20,7 +53,7 @@ export default function RegisterPackageInfo() {
   
   return (
     <div>
-      <TopBar />
+      <AppBarAdmin />
       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center' }}>
         <Box sx={{ width:'75%' }}>
           <StepperTop activeStep={0} />
@@ -97,7 +130,7 @@ export default function RegisterPackageInfo() {
                       size='large'
                       color='primary'
                       variant='contained'
-                      onClick={() => {navigate(`/check-package-info`)}}
+                      onClick={() => navigate(`/check-package-info`)}
                     >
                       登録
                     </Button>
