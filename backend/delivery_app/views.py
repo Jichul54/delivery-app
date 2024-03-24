@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models import User, Order, Delivery
-from .serializers import UserSerializer, UserListSerializer, OrderSerializer, DeliverySerializer
+from .serializers import UserSerializer, UserListSerializer, OrderSerializer, DeliverySerializer, DriverSerializer, OfficeSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -32,17 +32,32 @@ class DriversView(APIView):
 ###########################
 class UsersListView(APIView):
     def get(self, request, *args, **kwargs):
+        role_id = request.GET.get('role_id')
         post_code = request.GET.get('post_code')
         address = request.GET.get('address')
+
+        # role_idを必須にする
+        if role_id is None:
+            return Response({"error": "role_id not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # addressもしくはpost_codeがあればフィルターをかける
         if post_code is None and address is None:
-            users = User.objects.all()
+            users = User.objects.filter(role_id=role_id)
         elif post_code is None:
-            users = User.objects.filter(address=address)
+            users = User.objects.filter(address=address, role_id=role_id)
         elif address is None:
-            users = User.objects.filter(post_code=post_code)
+            users = User.objects.filter(post_code=post_code, role_id=role_id)
         else:
-            users = User.objects.filter(post_code=post_code, address=address)
-        serializer = UserListSerializer(users, many=True)
+            users = User.objects.filter(post_code=post_code, address=address, role_id=role_id)
+
+        # Serializeする
+        if role_id == 1:
+            serializer = UserSerializer(users, many=True)
+        elif role_id == 2:
+            serializer = OfficeSerializer(users, many=True)
+        else:
+            serializer = DriverSerializer(users, many=True)
+
         return Response(serializer.data)
 ###########################
 # ユーザ単体処理（/user）
@@ -50,7 +65,13 @@ class UsersListView(APIView):
 class UserView(APIView):
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        serializer = UserListSerializer(user, many=False)
+        if user.role_id == 1:
+            serializer = UserSerializer(user, many=False)
+        elif user.role_id == 2:
+            serializer = OfficeSerializer(user, many=False)
+        else:
+            serializer = DriverSerializer(user, many=False)
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
@@ -73,7 +94,7 @@ class CreateTokenView(APIView):
             # トークンを生成する
             token, created = Token.objects.get_or_create(user=user)
             # トークンを返す
-            return Response({"token": token.key, "role": "role-number", "id": user.id}, status=status.HTTP_200_OK)
+            return Response({"token": token.key, "role": user.role_id, "id": user.id}, status=status.HTTP_200_OK)
         
         except User.DoesNotExist:
             # ユーザーが存在しない場合、エラーメッセージを返す
@@ -84,12 +105,8 @@ class CreateTokenView(APIView):
 ###########################
 class OrderView(APIView):
     def get(self, request):
-        user_id = request.GET.get('user_id')
 
-        if user_id is None:
-            orders = Order.objects.all()
-        else:
-            orders = Order.objects.filter(user=user_id)
+        orders = Order.objects.all()
 
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
