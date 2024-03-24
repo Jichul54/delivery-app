@@ -22,8 +22,11 @@ const Main = () => {
       <Button onClick={() => {navigate(`/check-admin`)}}>
         管理者確認画面
       </Button>
-      <Button onClick={() => {navigate(`deliver-items`)}}>
+      <Button onClick={() => {navigate(`/deliver-items`)}}>
         配達画面
+      </Button>
+      <Button onClick={() => {navigate(`/login`)}}>
+        ログイン
       </Button>
       <Button onClick={() => {navigate(`/test`)}}>
         テスト

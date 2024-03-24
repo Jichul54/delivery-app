@@ -11,6 +11,7 @@ import ConfirmPackageInfo from './pages/Admin/Registering Packages/ConfirmPackag
 import Home from './pages/Home';
 import CheckAdmin from './pages/Admin/CheckAdmin/CheckAdmin';
 import DeliverItems from './pages/Drivers/DeliverItems';
+import LoginForm from './pages/Login/LoginForm';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path={`/deliver-items`} element={<DeliverItems />}/>
         <Route path={`/home`} element={<Home />} />
         <Route path={`/test`} element={<Test />} />
+        <Route path={`/login`} element={<LoginForm />} />
       </Routes>
     </BrowserRouter>
   );
