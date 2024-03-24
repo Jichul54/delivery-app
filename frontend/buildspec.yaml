@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t dev-frontend-01 .
+      - docker build -t dev-frontend-01 ./frontend
   post_build:
     commands:
       - echo Build completed on `date`
