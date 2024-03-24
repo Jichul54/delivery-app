@@ -4,7 +4,17 @@ from .models import User, Order, Delivery
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'post_code', 'address', 'is_active', 'is_staff']
+        fields = ['id', 'email', 'username', 'post_code', 'address', 'is_active']
+
+class OfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'username', 'is_active', 'sales_office']
+
+class DriverSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'username', 'is_active', 'sales_office']
 
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
