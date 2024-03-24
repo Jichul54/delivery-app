@@ -5,9 +5,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+// import { Navigate } from 'react-router-dom';
 
 export default function AppBarDriver() {
 
+  // const navigate = Navigate();
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -15,13 +17,14 @@ export default function AppBarDriver() {
   };
 
   const icons = [<HomeIcon />, <AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />]
+  // const pages = [`/home-driver`, `/register-items`, `/view-items`, `/deliver-items`]
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
       <List>
         {['ホーム', '登録', '確認', '配達'].map((text, index) => (
           <ListItem key={'menu' + index} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => {console.log('click')}}>
               <ListItemIcon>
                 {icons[index]}
               </ListItemIcon>

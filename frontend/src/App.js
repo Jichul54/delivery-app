@@ -10,8 +10,11 @@ import CheckPackageInfo from './pages/Admin/Registering Packages/CheckPackageInf
 import ConfirmPackageInfo from './pages/Admin/Registering Packages/ConfirmPackageInfo';
 import Home from './pages/Home';
 import CheckAdmin from './pages/Admin/CheckAdmin/CheckAdmin';
-import DeliverItems from './pages/Drivers/DeliverItems';
+import DeliverItems from './pages/Drivers/DeliverItems/DeliverItems';
 import LoginForm from './pages/Login/LoginForm';
+import RegisterItems from './pages/Drivers/RegisterItems';
+import ViewItems from './pages/Drivers/DeliverItems/ViewItems';
+import HomeDriver from './pages/Drivers/HomeDriver';
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
         <Route path={`/home`} element={<Home />} />
         <Route path={`/test`} element={<Test />} />
         <Route path={`/login`} element={<LoginForm />} />
+        <Route path={`/register-items`} element={<RegisterItems />} />
+        <Route path={`/view-items`} element={<ViewItems />} />
+        <Route path={`/home-driver`} element={<HomeDriver />} />
       </Routes>
     </BrowserRouter>
   );

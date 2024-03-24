@@ -4,10 +4,10 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button } from '@mui/material';
 import AppBarDriver from '../../components/AppBar_Driver';
 import { Container, Draggable } from 'react-smooth-dnd';
-import './style.css';
+// import './style.css';
 import { MuiFileInput } from 'mui-file-input';
+import { useNavigate } from 'react-router-dom';
 
-// export const ItemsData = React.createContext();
 
 const item_list = [
   {
@@ -27,8 +27,9 @@ const item_list = [
   }
 ]
 
-export default function DeliverItems() {
+export default function RegisterItems() {
 
+  const navigate = useNavigate();
   const [ items, setItems ] = React.useState(item_list);
 
   // 配達物リストの順番変更時
@@ -65,6 +66,9 @@ export default function DeliverItems() {
       })
       console.log(api_items);
     })
+
+    // 確認画面へ遷移
+    // navigate(`/deliver-items`);
   }
 
   return (

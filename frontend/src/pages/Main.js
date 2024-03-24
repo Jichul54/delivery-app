@@ -28,6 +28,9 @@ const Main = () => {
       <Button onClick={() => {navigate(`/login`)}}>
         ログイン
       </Button>
+      <Button onClick={() => {navigate(`/register-items`)}}>
+        登録画面
+      </Button>
       <Button onClick={() => {navigate(`/test`)}}>
         テスト
       </Button>

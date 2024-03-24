@@ -1,7 +1,0 @@
-/* .smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
-  display: grid;
-} */
-
-.smooth-dnd-container.vertical {
-  display: grid;
-}
