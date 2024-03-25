@@ -175,4 +175,22 @@ class DeliveryView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+###########################
+# メール送信処理（/users/notification）
+###########################
+class NotificationView(APIView):
+    def index(request):
+        from django.core.mail import send_mail
+        order_id = request.data.get('order_id')
+        order=Order.objects.get(pk=order_id)
+        user=User.objects.get(pk=order['user_id'])
+
+        subject = "明日配達される荷物があります！"
+        text_content = "サンプルメールの本文です/n改行のテスト"
+        from_email = "admin@itc.tokyo"
+        recipient_list =user['email']
+
+        for i in range(len(recipient_list)):
+            send_mail(subject, text_content, from_email, recipient_list[i])
 

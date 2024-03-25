@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TestAPIView, DriversView, UserView, CreateTokenView, UsersListView, OrderView, DeliveryView
+from .views import TestAPIView, DriversView, UserView, CreateTokenView, UsersListView, OrderView, DeliveryView, NotificationView
 from django.urls import path
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('order', OrderView.as_view(), name='order'),
     path('order/<int:pk>', OrderView.as_view(), name='delete and put order'),
     path('delivery', DeliveryView.as_view(), name='delivery'),
+    path('user/notificationView', NotificationView.as_view(), name='notification'),
 ]
