@@ -11,6 +11,8 @@ export default function LoginForm() {
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = async () => {
+    console.log(email);
+    console.log(password);
     // API呼び出し
     const result = await postLoginInfo(email, password);
     if (result) {

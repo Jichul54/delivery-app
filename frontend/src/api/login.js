@@ -1,19 +1,19 @@
 export async function postLoginInfo(email, password) {
   try {
-    const response = await fetch('api/login/', {
+    const response = await fetch('token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        "email": email, 
-        "password": password 
+        email: email, 
+        password: password 
       })
     });
 
     const data = await response.json();
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       // 成功時処理
       console.log('テスト成功', data);
       return data;
