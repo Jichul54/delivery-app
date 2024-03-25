@@ -186,11 +186,19 @@ class NotificationView(APIView):
         order=Order.objects.get(pk=order_id)
         user=User.objects.get(pk=order['user_id'])
 
+        recipient_list=[]
+
+        for i in range(order_id): #受け取るorder_idがリスト型の時
+            order=Order.objects.get(pk=order_id[i])
+            user=User.objects.get(pk=order['user_id'])
+            recipient_list.append(user['email'])
+        recipient_list=list(set(recipient_list))
+
         subject = "明日配達される荷物があります！"
         text_content = "サンプルメールの本文です/n改行のテスト"
         from_email = "admin@itc.tokyo"
         recipient_list =user['email']
 
-        for i in range(len(recipient_list)):
+        for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
             send_mail(subject, text_content, from_email, recipient_list[i])
 
