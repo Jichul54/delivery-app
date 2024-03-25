@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from .sales_office import Sales_office
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -23,10 +24,15 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), unique=True)
-    username = models.CharField(_('username'), max_length=150, unique=True)
-    post_code = models.CharField(_('post code'), max_length=12)
-    address = models.CharField(_('address'), max_length=255)
+    username = models.CharField(_('username'), max_length=150)
+    role_id = models.IntegerField(_('role_id'),null=False)
+    
+    email = models.EmailField(_('email address'), unique=True, null=False)
+    post_code = models.CharField(_('post code'), max_length=12, null=True)
+    address = models.CharField(_('address'), max_length=255, null=True)
+    
+    sales_office = models.ForeignKey(Sales_office,on_delete=models.SET_NULL, null=True)
+
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('staff status'), default=False)
     
