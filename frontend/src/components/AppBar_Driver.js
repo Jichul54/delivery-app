@@ -12,7 +12,7 @@ export default function AppBarDriver() {
   const [open, setOpen] = React.useState(false);
   const labels = ['ホーム', '登録', '確認', '配達'];
   const icons = [<HomeIcon />, <AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />];
-  const pages = [`/home-driver`, `/register-items`, `/view-items`, `/deliver-items`];
+  const pages = [`/home-driver`, `/register-items`, `/view-items`, `/start-delivering`];
 
 
   const toggleDrawer = (newOpen) => () => {

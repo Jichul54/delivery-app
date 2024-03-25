@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 
 class TestAPIView(APIView):
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         data = {"message": "Hello from Django!"}
         return Response(data, status=status.HTTP_200_OK)
 

@@ -12,9 +12,12 @@ import Home from './pages/Home';
 import CheckAdmin from './pages/Admin/CheckAdmin/CheckAdmin';
 import DeliverItems from './pages/Drivers/DeliverItems/DeliverItems';
 import LoginForm from './pages/Login/LoginForm';
-import RegisterItems from './pages/Drivers/RegisterItems';
-import ViewItems from './pages/Drivers/DeliverItems/ViewItems';
+import RegisterItems from './pages/Drivers/RegisterItems/RegisterItems';
+import ViewItems from './pages/Drivers//ViewItems';
 import HomeDriver from './pages/Drivers/HomeDriver';
+import StartDelivering from './pages/Drivers/DeliverItems/StartDelivering';
+import DeliveryCompleted from './pages/Drivers/DeliverItems/DeliveryCompleted';
+import ConfirmItems from './pages/Drivers/RegisterItems/ConfirmItems';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
         <Route path={`/register-items`} element={<RegisterItems />} />
         <Route path={`/view-items`} element={<ViewItems />} />
         <Route path={`/home-driver`} element={<HomeDriver />} />
+        <Route path={`/start-delivering`} element={<StartDelivering />} />
+        <Route path={`/delivery-completed`} element={<DeliveryCompleted />} />
+        <Route path={`/confirm-items`} element={<ConfirmItems />} />
       </Routes>
     </BrowserRouter>
   );

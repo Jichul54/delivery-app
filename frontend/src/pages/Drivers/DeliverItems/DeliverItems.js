@@ -7,6 +7,7 @@ import { Container, Draggable } from 'react-smooth-dnd';
 // import './../style.css';
 import { MuiFileInput } from 'mui-file-input';
 import AppBarDriver from '../../../components/AppBar_Driver';
+import { useNavigate } from 'react-router-dom';
 
 
 const item_list = [
@@ -30,6 +31,7 @@ const item_list = [
 export default function DeliverItems() {
   
   const [status, setStatus] = React.useState(Array(item_list.length).fill(''));
+  const navigate = useNavigate();
 
   const handleClickDelivered = (index) => {
     const newStatus = status.slice();
@@ -40,6 +42,9 @@ export default function DeliverItems() {
     const newStatus = status.slice();
     newStatus[index] = 'absent';
     setStatus(newStatus);
+  }
+  const handleClick = () => {
+    navigate(`/delivery-completed`);
   }
 
   return (
@@ -91,7 +96,12 @@ export default function DeliverItems() {
           </List>
           <Box sx={{display:'flex', justifyContent:'center'}}>
             <Box sx={{ width: '100px' }}>
-              <Button variant='outlined'>配達完了</Button>
+              <Button 
+                variant='outlined'
+                onClick={handleClick}
+              >
+                配達完了
+              </Button>
             </Box>
           </Box>
         </Stack>

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { arrayMoveImmutable } from 'array-move';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button } from '@mui/material';
-import AppBarDriver from '../../components/AppBar_Driver';
+import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography } from '@mui/material';
+import AppBarDriver from '../../../components/AppBar_Driver';
 import { Container, Draggable } from 'react-smooth-dnd';
 // import './style.css';
 import { MuiFileInput } from 'mui-file-input';
@@ -68,18 +68,20 @@ export default function RegisterItems() {
     })
 
     // 確認画面へ遷移
-    // navigate(`/deliver-items`);
+    navigate(`/confirm-items`);
   }
 
   return (
     <div>
       <AppBarDriver />
       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center', flexGrow:1 }}>
-        <Stack direction='column' spacing={2}>
+        <Stack direction='column'>
+          <Typography>ファイル選択</Typography>
           <MuiFileInput 
             value={file} 
             placeholder='ファイルを選択してください。' 
             inputProps={{ accept: '.csv' }} 
+            sx={{ mb:2 }}
             onChange={handleChange} 
           />
           <List sx={{ width:'100%' }}>

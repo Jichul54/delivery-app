@@ -1,7 +1,7 @@
 // メッセージをサーバーにPOSTする非同期関数
 export async function postTestMessage(message) {
   try {
-    const response = await fetch('/test', {
+    const response = await fetch('api/test/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ export async function postTestMessage(message) {
 
     const data = await response.json();
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       // 成功した場合の処理
       console.log('テスト成功:', data);
       return data; // 成功データを返す
