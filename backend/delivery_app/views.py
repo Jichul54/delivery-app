@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
 class TestAPIView(APIView):
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         data = {"message": "Hello from Django!"}
         return Response(data, status=status.HTTP_200_OK)
 
