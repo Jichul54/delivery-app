@@ -8,6 +8,6 @@ class Delivery(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     delivery_status = models.ForeignKey(Delivery_Status, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    delivery_route_no = models.CharField(_('delivery_route_no'), max_length=200)
+    delivery_route_no = models.IntegerField(_('delivery_route_no'))
     def __str__(self):
         return self.delivery_route_no

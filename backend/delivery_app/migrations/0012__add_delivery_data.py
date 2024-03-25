@@ -8,7 +8,7 @@ def add_delivery_data(apps, schema_editor):
         user_id='3',
         delivery_status_id = '1',
         order_id = '1',
-        delivery_route_no = 'test'
+        delivery_route_no = '1'
     )
     delivery.save()
 
