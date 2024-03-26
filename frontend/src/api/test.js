@@ -4,6 +4,7 @@ import { MyProxy } from './proxy';
 // メッセージをサーバーにPOSTする非同期関数
 export async function postTestMessage(message) {
   console.log(MyProxy + 'api/test/');
+  console.log('test')
   try {
     const response = await fetch(MyProxy + '/api/test/', {
       method: 'POST',
