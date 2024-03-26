@@ -6,6 +6,7 @@ import { postLoginInfo } from '../../api/login';
 export default function LoginForm() {
 
   const navigate = useNavigate();
+  console.log('hello')
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
