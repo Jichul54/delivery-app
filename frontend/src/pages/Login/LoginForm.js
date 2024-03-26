@@ -12,8 +12,6 @@ export default function LoginForm() {
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = async () => {
-    console.log(email);
-    console.log(password);
 
     // バリデーション確認
     if (!email) {
@@ -24,7 +22,7 @@ export default function LoginForm() {
       alert('パスワードを入力してください。');
       return;
     }
-
+    console.log(login);
     // API呼び出し
     const result = await postLoginInfo(email, password);
     if (result) {
