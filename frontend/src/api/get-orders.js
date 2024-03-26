@@ -1,16 +1,12 @@
-import { MyProxy } from './proxy';
+import { MyProxy } from "./proxy";
 
-
-// メッセージをサーバーにPOSTする非同期関数
-export async function postTestMessage(message) {
-  console.log(MyProxy + 'api/test/');
+export async function getOrders() {
   try {
-    const response = await fetch(MyProxy + '/api/test/', {
-      method: 'POST',
+    const response = await fetch(MyProxy + '/order/', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: message }),
+      }
     });
 
     const data = await response.json();

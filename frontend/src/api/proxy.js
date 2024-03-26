@@ -1,1 +1,1 @@
-export default Proxy = 'http://localhost:8080';
+export const MyProxy = 'http://localhost:8080';

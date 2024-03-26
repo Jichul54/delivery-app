@@ -13,14 +13,31 @@ export default function LoginForm() {
   const handleSubmit = async () => {
     console.log(email);
     console.log(password);
+
+    // バリデーション確認
+    if (!email) {
+      alert('メールアドレスを入力してください。');
+      return;
+    }
+    if (!password) {
+      alert('パスワードを入力してください。');
+      return;
+    }
+
     // API呼び出し
     const result = await postLoginInfo(email, password);
     if (result) {
       // 成功時
       alert(`ログイン成功: ${result.email} ${result.password}`);
+      if (result.role === 1) {
+        // ユーザー画面に遷移
+      } else if (result.role === 3) {
+        // ドライバー画面に遷移
+        navigate(`/home-driver`);
+      }
     } else {
       // 失敗時
-      alert('ログイン失敗')
+      alert('ログイン失敗');
     }
   }
 
