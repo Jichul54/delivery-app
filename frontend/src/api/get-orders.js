@@ -2,7 +2,7 @@ import { MyProxy } from "./proxy";
 
 export async function getOrders() {
   try {
-    const response = await fetch(MyProxy + '/order/', {
+    const response = await fetch(MyProxy + 'order', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

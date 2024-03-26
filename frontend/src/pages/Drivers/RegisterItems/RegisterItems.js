@@ -33,12 +33,12 @@ export default function RegisterItems() {
   const [ items, setItems ] = React.useState([]);
 
   // 注文情報取得
-  // const all_orders = getOrders();
-  // if (all_orders) {
-  //   console.log(all_orders);
-  // } else {
-  //   console.log('no order');
-  // }
+  const all_orders = getOrders();
+  if (all_orders) {
+    console.log(all_orders);
+  } else {
+    console.log('no order');
+  }
 
   // ユーザー情報取得
 
