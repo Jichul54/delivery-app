@@ -9,7 +9,7 @@ def add_user_data(apps, schema_editor):
         username='testuser2',
         role_id=1,
         email='testuser2@example.com',
-        post_code='678910',
+        post_code='6789100',
         address='Test Address2',
         is_active=True,
         is_staff=False,
