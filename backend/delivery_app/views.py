@@ -9,6 +9,9 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
+
+from django.shortcuts import render
+
 class TestAPIView(APIView):
     def get(self, request, format=None):
         data = {"message": "Hello from Django!"}
@@ -195,10 +198,12 @@ class NotificationView(APIView):
         recipient_list=list(set(recipient_list))
 
         subject = "明日配達される荷物があります！"
-        text_content = "サンプルメールの本文です/n改行のテスト"
+        text_content = "サンプルメールの本文です/n改行のテスト/n今すぐログインして明日届く荷物を確認しましょう/n/nURL:"
         from_email = "admin@itc.tokyo"
         recipient_list =user['email']
 
         for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
             send_mail(subject, text_content, from_email, recipient_list[i])
+
+        # return render(request, 'index.html')
 
