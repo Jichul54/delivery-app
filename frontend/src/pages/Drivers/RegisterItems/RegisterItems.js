@@ -9,28 +9,28 @@ import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../../api/get-orders';
 
 
-const item_list = [
-  {
-    order_id: 1,
-    name: '佐藤',
-    address: '福岡市博多区山王・・・・・・・・'
-  },
-  {
-    order_id: 2,
-    name: '田中',
-    address: '福岡市中央区・・・・・・・・'
-  },
-  {
-    order_id: 4,
-    name: '山崎',
-    address: '福岡市西区・・・・・・・・'
-  }
-]
+// const item_list = [
+//   {
+//     order_id: 1,
+//     name: '佐藤',
+//     address: '福岡市博多区山王・・・・・・・・'
+//   },
+//   {
+//     order_id: 2,
+//     name: '田中',
+//     address: '福岡市中央区・・・・・・・・'
+//   },
+//   {
+//     order_id: 4,
+//     name: '山崎',
+//     address: '福岡市西区・・・・・・・・'
+//   }
+// ]
 
 export default function RegisterItems() {
 
   const navigate = useNavigate();
-  const [ items, setItems ] = React.useState(item_list);
+  const [ items, setItems ] = React.useState([]);
 
   // 注文情報取得
   // const all_orders = getOrders();
