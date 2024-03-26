@@ -1,7 +1,11 @@
+import Proxy from './proxy';
+
+
 // メッセージをサーバーにPOSTする非同期関数
 export async function postTestMessage(message) {
+  console.log(Proxy + 'api/test/');
   try {
-    const response = await fetch('api/test/', {
+    const response = await fetch(Proxy + '/api/test/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
