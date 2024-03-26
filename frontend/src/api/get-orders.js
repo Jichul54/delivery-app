@@ -4,9 +4,9 @@ export async function getOrders() {
   try {
     const response = await fetch(MyProxy + 'order', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // }
     });
 
     const data = await response.json();
