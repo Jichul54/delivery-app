@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
+from django.core.mail import send_mail
 
 class TestAPIView(APIView):
     def get(self, request, format=None):
@@ -180,29 +181,28 @@ class DeliveryView(APIView):
 # メール送信処理（/users/notification）
 ###########################
 class NotificationView(APIView):
-    def get(self,request,pk):
-        from django.core.mail import send_mail
-        # order_id = request.data.get('order_id')
-        order=Order.objects.get(pk=pk)
-        print(type(order.pk))
-        user_id = order.user_id
-        user=User.objects.get(pk=user_id)
-        # user=User.objects.get(pk=pk)
+    def get(self,request):
+        order_id = request.data.get('order_id')
+        # order_id = [4,12,4,4]
 
-        # recipient_list=[]
+        recipient=[]
 
-        # for i in range(order_id): #受け取るorder_idがリスト型の時
-        #     order=Order.objects.get(pk=order_id[i])
-        #     user=User.objects.get(pk=order['user_id'])
-        #     recipient_list.append(user['email'])
-        # recipient_list=list(set(recipient_list))
+        for i in order_id: #受け取るorder_idがリスト型の時
+            order=Order.objects.get(pk=i)
+            user_id = int(order.user_id)
+            user=User.objects.get(pk=user_id)
+            recipient.append(user.email)
+        recipient=list(set(recipient))
 
-        subject = "明日配達される荷物があります！"
-        text_content = "サンプルメールの本文です/n改行のテスト/n今すぐログインして明日届く荷物を確認しましょう/n/nURL:"
-        from_email = "admin@itc.tokyo"
-        # recipient_list =user['email']
-        recipient_list =[user.email]
-        # for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
-        send_mail(subject, text_content, from_email, recipient_list)
+        recipient_list=[]
+
+        for i in range(len(recipient)):
+            recipient_list.append([recipient[i]])
+
+        subject = "明日配達される荷物があります"
+        text_content = "サンプルメールの本文です/n改行のテスト/n今すぐログインして明日届く荷物を確認しましょう/n/nURL:https:/~~~"
+        from_email = "mojyamodjyango@mojya.com"
+        for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
+            send_mail(subject, text_content, from_email, recipient_list[i])
         return Response(1, status=status.HTTP_201_CREATED)
 
