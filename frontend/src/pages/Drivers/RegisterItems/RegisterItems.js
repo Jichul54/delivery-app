@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { arrayMoveImmutable } from 'array-move';
+// import arrayMoveImmutable from 'react-sortable-hoc';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography } from '@mui/material';
 import AppBarDriver from '../../../components/AppBar_Driver';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../../api/get-orders';
 
 
-const item_list = [];
+// const item_list = [];
 
 export default function RegisterItems() {
 
@@ -28,7 +28,7 @@ export default function RegisterItems() {
 
   // 配達物リストの順番変更時
   const onDrop = ({ removedIndex, addedIndex }) => {
-    const newItems = arrayMoveImmutable(items, removedIndex, addedIndex);
+    // const newItems = arrayMoveImmutable(items, removedIndex, addedIndex);
     setItems(newItems);
     console.log(newItems);
   }
