@@ -6,7 +6,6 @@ import { postLoginInfo } from '../../api/login';
 export default function LoginForm() {
 
   const navigate = useNavigate();
-  console.log('hello')
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -22,7 +21,6 @@ export default function LoginForm() {
       alert('パスワードを入力してください。');
       return;
     }
-    console.log(login);
     // API呼び出し
     const result = await postLoginInfo(email, password);
     if (result) {
