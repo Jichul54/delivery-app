@@ -12,7 +12,7 @@ import { postDelivery } from '../../../api/post-delivery';
 
 export default function RegisterItems() {
 
-  const driver_id = sessionStorage.getItem('user_id')
+  const driver_id = sessionStorage.getItem('user_id');
   console.log(driver_id);
 
   const navigate = useNavigate();
