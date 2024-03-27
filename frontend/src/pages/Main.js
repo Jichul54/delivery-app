@@ -18,6 +18,9 @@ const Main = () => {
       <Button onClick={() => {navigate(`/test`)}}>
         テスト
       </Button>
+      <Button onClick={() => {navigate(`/home-user`)}}>
+        ユーザーホーム
+      </Button>
     </div>
   );
 };

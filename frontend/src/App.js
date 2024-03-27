@@ -4,6 +4,7 @@ import LoginFormUser from './pages/Login/LoginFormUser';
 import Test from './pages/Test/Test';
 import LoginFormDriver from './pages/Login/LoginFormDriver';
 import Main from './pages/Main';
+import HomeUser from './pages/Users/HomeUser';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path={`/login-vendors`} element={<LoginFormDriver />} />
         <Route path={`/login-users`} element={<LoginFormUser />} />
         <Route path={`/test`} element={<Test />} />
+        <Route path={`/home-user`} element={<HomeUser />} />
       </Routes>
     </BrowserRouter>
   );
