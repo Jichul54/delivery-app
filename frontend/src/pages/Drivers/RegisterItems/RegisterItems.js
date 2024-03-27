@@ -37,7 +37,10 @@ export default function RegisterItems() {
         'Content-Type': 'application/json',
       }
     })
-    .then((res) => res.json())
+    .then((res) => {
+      console.log(res.status) // 200
+      return res.json()
+    })
     .then((json) => setAllOrders(json))
     .catch(() => alert('error'));
     
@@ -99,7 +102,10 @@ export default function RegisterItems() {
             'Content-Type': 'application/json',
           }
         })
-        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.status); // 200
+          return res.json()
+        })
         .then((json) => {
           console.log(json);
           setItems([...items, {
@@ -141,7 +147,10 @@ export default function RegisterItems() {
           delivery_route_no: index + 1
         })
       })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.status); // 201
+        return res.json();
+      })
       .then((json) => {
         console.log(json)
         setFinalData([...finalData, {
