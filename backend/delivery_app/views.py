@@ -177,6 +177,19 @@ class DeliveryView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def put(self,request,pk):
+        # 配達情報の更新
+        try:
+            delivery = Delivery.objects.get(pk=pk)
+        except Delivery.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DeliverySerializer(delivery, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 ###########################
 # メール送信処理（/users/notification）
 ###########################
