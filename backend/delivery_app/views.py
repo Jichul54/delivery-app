@@ -182,8 +182,8 @@ class DeliveryView(APIView):
 ###########################
 class NotificationView(APIView):
     def get(self,request):
-        # order_id = request.data.get('order_id')
-        order_id = [4,12,4,4]
+        order_id = request.data.get('order_id')
+        # order_id = [4,12,4,4]
 
         recipient=[]
         username=[]
