@@ -1,16 +1,13 @@
 import { MyProxy } from "./proxy";
 
-export async function postLoginInfo(email, password) {
+export async function postDelivery(body) {
   try {
-    const response = await fetch(MyProxy + 'token', {
+    const response = await fetch(MyProxy + 'delivery', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ 
-        email: email, 
-        password: password 
-      })
+      body: body
     });
 
     const data = await response.json();

@@ -3,6 +3,7 @@ import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mu
 import { useNavigate } from 'react-router-dom';
 import { postLoginInfo } from '../../api/login';
 
+
 export default function LoginForm() {
 
   const navigate = useNavigate();
@@ -22,10 +23,11 @@ export default function LoginForm() {
       return;
     }
     // API呼び出し
-    const result = await postLoginInfo(JSON.stringify(email), JSON.stringify(password));
+    const result = await postLoginInfo(email, password);
     if (result) {
       // 成功時
-      alert(`ログイン成功: ${result.email} ${result.password}`);
+      alert(`ログイン成功: ${result.id}`);
+      sessionStorage.setItem('user_id', result.id);
       if (result.role === 1) {
         // ユーザー画面に遷移
       } else if (result.role === 3) {
@@ -34,7 +36,7 @@ export default function LoginForm() {
       }
     } else {
       // 失敗時
-      alert('ログイン失敗');
+      alert('メールアドレスかパスワードが間違っています。');
     }
   }
 

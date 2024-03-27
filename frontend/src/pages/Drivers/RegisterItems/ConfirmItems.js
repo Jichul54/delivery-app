@@ -3,10 +3,13 @@ import { Box, Collapse, Alert, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AppBarDriver from "../../../components/AppBar_Driver";
 import ItemList from '../../../components/ItemList';
+import { useLocation } from 'react-router-dom';
 
 export default function ConfirmItems() {
 
   const [open, setOpen] = React.useState(true);
+  const [itemList, setItemList] = React.useState([]);
+  
 
   return (
     <div>
@@ -34,7 +37,7 @@ export default function ConfirmItems() {
         </Box>
       </Box>
       <Box sx={{ display:'flex', justifyContent:'center', flexGrow:1 }}>
-        <ItemList />
+        {/* <ItemList item_list={ itemList } /> */}
       </Box>
     </div>
   )

@@ -1,14 +1,10 @@
 import { MyProxy } from './proxy';
 
-export async function postTestMessage(message) {
+export async function getUsers() {
   try {
-    const response = await fetch(MyProxy + '/api/test/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: message }),
-    });
+    const params = { role_id: 1};
+    const query = new URLSearchParams(params);
+    const response = await fetch(MyProxy + 'users?' + query);
 
     const data = await response.json();
 

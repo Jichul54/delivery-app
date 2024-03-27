@@ -4,6 +4,7 @@ import { Stack, Box, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 export default function StartDelivering() {
+  let item_list;
 
   const navigate = useNavigate();
   return (
@@ -20,7 +21,7 @@ export default function StartDelivering() {
               配送を開始する
             </Button>
           </Box>
-        <ItemList />
+        <ItemList item_list={ item_list } />
         </Stack>
       </Box>
     </div>

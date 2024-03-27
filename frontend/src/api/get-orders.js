@@ -1,18 +1,21 @@
 import { MyProxy } from "./proxy";
 
 export async function getOrders() {
+
   try {
     const response = await fetch(MyProxy + 'order', {
       method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // }
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
 
+    console.log(response);
     const data = await response.json();
 
     if (response.status === 200) {
       // 成功した場合の処理
+      // data.forEach((data) => {all_orders.append(data)});
       console.log('テスト成功:', data);
       return data; // 成功データを返す
     } else {

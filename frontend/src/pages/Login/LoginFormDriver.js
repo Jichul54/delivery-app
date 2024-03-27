@@ -12,7 +12,8 @@ export default function LoginFormDriver() {
     const result = await postDriverLoginInfo(user_id, password);
     if (result) {
       // 成功時
-      alert(`ログイン成功: ${result.user_id} ${result.password}`);
+      alert(`ログイン成功: ${result.id}`);
+      localStorage.setItem('user_id', result.id);
     } else {
       // 失敗時
       alert('ログイン失敗')

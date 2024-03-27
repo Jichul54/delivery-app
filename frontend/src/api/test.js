@@ -6,7 +6,7 @@ export async function postTestMessage(message) {
   console.log(MyProxy + 'api/test/');
   console.log('test')
   try {
-    const response = await fetch(MyProxy + '/api/test/', {
+    const response = await fetch(MyProxy + 'api/test/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

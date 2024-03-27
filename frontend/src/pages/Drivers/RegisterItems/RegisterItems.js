@@ -1,46 +1,117 @@
 import * as React from 'react';
 import { arrayMoveImmutable } from 'array-move';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography } from '@mui/material';
+import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography, useScrollTrigger } from '@mui/material';
 import AppBarDriver from '../../../components/AppBar_Driver';
 import { Container, Draggable } from 'react-smooth-dnd';
 import { MuiFileInput } from 'mui-file-input';
-import { useNavigate } from 'react-router-dom';
-import { getOrders } from '../../../api/get-orders';
+import { json, useNavigate } from 'react-router-dom';
+import { MyProxy } from '../../../api/proxy';
+import { postDelivery } from '../../../api/post-delivery';
 
-
-// const item_list = [
-//   {
-//     order_id: 1,
-//     name: '佐藤',
-//     address: '福岡市博多区山王・・・・・・・・'
-//   },
-//   {
-//     order_id: 2,
-//     name: '田中',
-//     address: '福岡市中央区・・・・・・・・'
-//   },
-//   {
-//     order_id: 4,
-//     name: '山崎',
-//     address: '福岡市西区・・・・・・・・'
-//   }
-// ]
 
 export default function RegisterItems() {
 
+  const driver_id = sessionStorage.getItem('user_id')
+  console.log(driver_id);
+
   const navigate = useNavigate();
-  const [ items, setItems ] = React.useState([]);
+  const [ items, setItems ] = React.useState([]); // 最終的に表示するitems
+  const [ allOrders, setAllOrders ] = React.useState([]) // APIで取得する注文情報
+  const [ postInfo, setPostInfo ] = React.useState([]);
+  const [ finalData, setFinalData ] = React.useState([]);
 
-  // 注文情報取得
-  const all_orders = getOrders();
-  if (all_orders) {
-    console.log(all_orders);
-  } else {
-    console.log('no order');
+  // 明日の日付取得
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const tmrw = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  // console.log(tmrw);
+
+  // 注文情報取得（まだ取得してなかったら取得）
+  React.useEffect(() => {
+    let ignore = false;
+
+    fetch(MyProxy + 'order', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((res) => res.json())
+    .then((json) => setAllOrders(json))
+    .catch(() => alert('error'));
+    
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  // csv読み込み
+  const [file, setFile] = React.useState(null);
+  var reader = new FileReader();
+  let order_ids = []; // csvファイルのorder_idのリスト
+  let user_ids = [];
+  let post_info = []; // apiで送る情報
+  const handleChange = (newFile) => {
+    setFile(newFile);
+    reader.readAsText(newFile);
+
+    // csvファイル読み込み時
+    reader.onload = () => {
+      let result = reader.result.replace(/\r\n|\n|\r/g, ',').replace(/ /g, '').split(',');
+      console.log(result);
+      result.forEach(element => {
+        order_ids.push(Number(element));
+      });
+
+      // 注文情報から該当するユーザーを検索
+      order_ids.map((order_id) => {
+        // order_idが一致する商品を探す
+        console.log(order_id);
+        const this_order = allOrders.find(({ id }) => id === order_id );
+        console.log(this_order);
+        // user_idに同じuser_idがいない、かつdelivery_dateが明日のもののみ取得
+        if (user_ids.length !== 0) {
+          user_ids.forEach((user) => {
+            if (user !== this_order.user) {
+              user_ids.push(this_order.user);
+            }
+          })
+        // ひとつめ
+        } else {
+          user_ids.push(this_order.user);
+        }
+        post_info.push({
+          order: this_order.id,
+          user: this_order.user,
+          delivery_route_no: ''
+        });
+      }) // order_ids.forEach
+      console.log('user_ids', user_ids)
+      console.log('post_info', post_info);
+      setPostInfo(post_info);
+
+      // ユーザー情報取得
+      user_ids.forEach((user) => {
+        fetch(MyProxy + 'user/' + user, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          setItems([...items, {
+            user_id: user,
+            name: json.username,
+            address: json.address
+          }])
+        })
+        .catch(() => alert('error'));
+      })
+    }
   }
-
-  // ユーザー情報取得
 
   // 配達物リストの順番変更時
   const onDrop = ({ removedIndex, addedIndex }) => {
@@ -49,47 +120,38 @@ export default function RegisterItems() {
     console.log(newItems);
   }
 
-  // csv読み込み
-  const [file, setFile] = React.useState(null);
-  var reader = new FileReader();
-  let order_ids = []; // order_idのリスト
-  let user_ids = []; // user_idのリスト
-  const handleChange = (newFile) => {
-    setFile(newFile);
-    reader.readAsText(newFile);
-
-    // csvファイル読み込み時
-    reader.onload = () => {
-      let result = reader.result.replace(/\r\n|\n|\r/g, ',').replace(/ /g, '').split(',');
-      result.forEach(element => {
-        order_ids.push(Number(element));
-      });
-      // order_idの配列
-      console.log(order_ids);
-
-      // 注文情報から該当するユーザーを検索
-      // order_ids.forEach(id => {
-      //   const this_order = all_orders.find(order => order.id === id);
-      //   user_ids.push(this_order.user_id);
-      // })
-
-    }
-  }
-
-  // バックエンドに送る配列
-  let api_items = [];
   // 登録ボタン押下時
-  const handleClick = () => {
-  //   items.forEach((value, index) => {
-  //     api_items.push({
-  //       order_id: value.order_id,
-  //       delivery_route_no: index
-  //     })
-  //     console.log(api_items);
-  //   })
+  const handleClick = (postInfo, items) => {
+    console.log(items)
+    postInfo.forEach((value) => {
+      console.log(value);
+      const index = items.findIndex(({ user_id }) => user_id === value.user)
+      const user_info = items.find(({ user_id }) => user_id === value.user)
+      console.log(index);
+      value.delivery_route_no = index+1;
+      console.log(value);
+      fetch(MyProxy + 'delivery', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(value)
+      })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json)
+        setFinalData([...finalData, {
+          order_id: json.order,
+          name: items.name,
+          address: items.address
+        }]);
+      })
+      .catch(() => alert('error'))
+    });
+    console.log(finalData);
 
-  //   // 確認画面へ遷移
-  //   navigate(`/confirm-items`);
+    // 確認画面へ遷移
+    navigate(`/confirm-items`);
   }
 
   return (
@@ -128,7 +190,7 @@ export default function RegisterItems() {
               size='large'
               color='primary'
               variant='contained'
-              onClick={handleClick}
+              onClick={() => handleClick(postInfo, items)}
             >
               登録
             </Button>
