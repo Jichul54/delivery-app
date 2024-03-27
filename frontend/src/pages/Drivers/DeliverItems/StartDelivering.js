@@ -11,7 +11,7 @@ export default function StartDelivering() {
     <div>
       <AppBarDriver />
       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center', flexGrow:1 }}>
-        <Stack direction='column' spacing={2}>
+        {/* <Stack direction='column' spacing={2}> */}
           <Box sx={{ px:'25%' }}>
             <Button
               size='large'
@@ -21,8 +21,8 @@ export default function StartDelivering() {
               配送を開始する
             </Button>
           </Box>
-        <ItemList item_list={ item_list } />
-        </Stack>
+        {/* <ItemList item_list={ item_list } /> */}
+        {/* </Stack> */}
       </Box>
     </div>
   )

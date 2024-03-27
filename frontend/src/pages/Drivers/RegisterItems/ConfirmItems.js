@@ -4,11 +4,29 @@ import CloseIcon from '@mui/icons-material/Close';
 import AppBarDriver from "../../../components/AppBar_Driver";
 import ItemList from '../../../components/ItemList';
 import { useLocation } from 'react-router-dom';
+import { MyProxy } from '../../../api/proxy';
 
 export default function ConfirmItems() {
 
   const [open, setOpen] = React.useState(true);
-  const [itemList, setItemList] = React.useState([]);
+  // const [itemList, setItemList] = React.useState([]);
+
+  // fetch(MyProxy + 'user/' + user, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   }
+  // })
+  // .then((res) => res.json())
+  // .then((json) => {
+  //   console.log(json);
+  //   setItems([...items, {
+  //     user_id: user,
+  //     name: json.username,
+  //     address: json.address
+  //   }])
+  // })
+  // .catch(() => alert('error'));
   
 
   return (

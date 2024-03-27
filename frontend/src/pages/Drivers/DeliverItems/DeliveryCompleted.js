@@ -34,7 +34,7 @@ export default function DeliveryCompleted() {
         </Box>
       </Box>
       <Box sx={{ display:'flex', justifyContent:'center', flexGrow:1 }}>
-        <ItemList />
+        {/* <ItemList /> */}
       </Box>
     </div>
   )

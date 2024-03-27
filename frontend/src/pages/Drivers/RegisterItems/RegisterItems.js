@@ -70,7 +70,7 @@ export default function RegisterItems() {
         console.log(order_id);
         const this_order = allOrders.find(({ id }) => id === order_id );
         console.log(this_order);
-        // user_idに同じuser_idがいない、かつdelivery_dateが明日のもののみ取得
+        // user_idに同じuser_idがいない
         if (user_ids.length !== 0) {
           user_ids.forEach((user) => {
             if (user !== this_order.user) {
@@ -105,7 +105,8 @@ export default function RegisterItems() {
           setItems([...items, {
             user_id: user,
             name: json.username,
-            address: json.address
+            address: json.address,
+            email: json.email
           }])
         })
         .catch(() => alert('error'));
@@ -148,7 +149,9 @@ export default function RegisterItems() {
       })
       .catch(() => alert('error'))
     });
-    console.log(finalData);
+    let emails = [];
+    items.forEach(({ email }) => emails.push(email))
+    console.log(emails);
 
     // 確認画面へ遷移
     navigate(`/confirm-items`);

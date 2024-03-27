@@ -7,9 +7,13 @@ import AppBarDriver from '../../components/AppBar_Driver';
 
 export default function HomeDriver() {
 
-  const labels = ['配達物を登録する', '配達物を確認する', '配達を始める'];
-  const icons = [<AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />];
-  const pages = [`/register-items`, `/view-items`, `/start-delivering`];
+  // const labels = ['配達物を登録する', '配達物を確認する', '配達を始める'];
+  // const icons = [<AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />];
+  // const pages = [`/register-items`, `/view-items`, `/start-delivering`];
+
+  const labels = ['配達物を登録する', '配達を始める'];
+  const icons = [<AppRegistrationIcon />, <LocalShippingIcon />];
+  const pages = [`/register-items`, `/deliver-items`];
 
   return (
     <div>

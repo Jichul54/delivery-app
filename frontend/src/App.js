@@ -18,13 +18,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={`/`} element={<Main />} />
+        <Route path={`/`} element={<LoginForm />} />
         <Route path={`/users`} element={<SignUpForm />} />
         <Route path={`/login-vendors`} element={<LoginFormDriver />} />
         <Route path={`/login-users`} element={<LoginFormUser />} />
         <Route path={`/deliver-items`} element={<DeliverItems />}/>
         <Route path={`/test`} element={<Test />} />
-        <Route path={`/login`} element={<LoginForm />} />
+        {/* <Route path={`/login`} element={<LoginForm />} /> */}
         <Route path={`/register-items`} element={<RegisterItems />} />
         <Route path={`/view-items`} element={<ViewItems />} />
         <Route path={`/home-driver`} element={<HomeDriver />} />

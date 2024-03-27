@@ -26,7 +26,7 @@ export default function LoginForm() {
     const result = await postLoginInfo(email, password);
     if (result) {
       // 成功時
-      alert(`ログイン成功: ${result.id}`);
+      // alert(`ログイン成功: ${result.id}`);
       sessionStorage.setItem('user_id', result.id);
       if (result.role === 1) {
         // ユーザー画面に遷移

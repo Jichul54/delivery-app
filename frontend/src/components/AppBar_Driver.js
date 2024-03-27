@@ -10,9 +10,13 @@ import { NavLink } from 'react-router-dom';
 export default function AppBarDriver() {
 
   const [open, setOpen] = React.useState(false);
-  const labels = ['ホーム', '登録', '確認', '配達'];
-  const icons = [<HomeIcon />, <AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />];
-  const pages = [`/home-driver`, `/register-items`, `/view-items`, `/start-delivering`];
+  // const labels = ['ホーム', '登録', '確認', '配達'];
+  // const icons = [<HomeIcon />, <AppRegistrationIcon />, <FormatListNumberedIcon />, <LocalShippingIcon />];
+  // const pages = [`/home-driver`, `/register-items`, `/view-items`, `/start-delivering`];
+
+  const labels = ['ホーム', '登録', '配達'];
+  const icons = [<HomeIcon />, <AppRegistrationIcon />,  <LocalShippingIcon />];
+  const pages = [`/home-driver`, `/register-items`, `/deliver-items`];
 
 
   const toggleDrawer = (newOpen) => () => {
