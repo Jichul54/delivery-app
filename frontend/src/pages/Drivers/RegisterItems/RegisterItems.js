@@ -84,7 +84,7 @@ export default function RegisterItems() {
         post_info.push({
           order: this_order.id,
           user: this_order.user,
-          delivery_route_no: ''
+          driver: driver_id
         });
       }) // order_ids.forEach
       console.log('user_ids', user_ids)
@@ -129,14 +129,17 @@ export default function RegisterItems() {
       const index = items.findIndex(({ user_id }) => user_id === value.user)
       const user_info = items.find(({ user_id }) => user_id === value.user)
       console.log(index);
-      value.delivery_route_no = index+1;
       console.log(value);
       fetch(MyProxy + 'delivery', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(value)
+        body: JSON.stringify({
+          user: value.driver,
+          order: value.order,
+          delivery_route_no: index + 1
+        })
       })
       .then((res) => res.json())
       .then((json) => {
