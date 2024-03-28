@@ -1,6 +1,7 @@
 import * as React from 'react';
  import { AppBar, Paper, Toolbar, Typography, Box, List, ListItem, Stack, ListItemAvatar, Avatar, ListItemText, Button, Backdrop, Dialog, DialogTitle, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
  import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+ import { MyProxy } from '../../api/proxy';
 
  export default function HomeUser() {
 
@@ -30,7 +31,6 @@ import * as React from 'react';
     //  console.log(date_list);
    };
 
-   const MyProxy = 'http://localhost:8080/';
    // ユーザーの情報取得
    React.useEffect(() => {
      fetch(MyProxy + 'user/' + user_id, {
