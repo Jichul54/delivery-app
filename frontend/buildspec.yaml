@@ -18,7 +18,7 @@ phases:
       - docker push 905418053651.dkr.ecr.ap-northeast-1.amazonaws.com/dev-frontend-01:latest
       - printf '[{"name":"%s","imageUri":"%s"}]' frontend 905418053651.dkr.ecr.ap-northeast-1.amazonaws.com/dev-frontend-01:latest > imagedefinitions.json
       - echo Rewriting task definitions file...
-      - sed -i -e "s#<TASK_FAMILY>#$TASK_FAMILY#" taskdef.json
+      - sed -i -e "s#<TASK_FAMILY>#dev-task-01#" taskdef.json
       - sed -i -e "s#<TASK_ROLE_ARN>#arn:aws:iam::905418053651:role/ecsTaskExecutionRole#" taskdef.json
       - sed -i -e "s#<EXECUTION_ROLE_ARN>#arn:aws:iam::905418053651:role/ecsTaskExecutionRole#" taskdef.json
       - sed -i -e "s#<CONTAINER_NAME>#frontend#" taskdef.json
