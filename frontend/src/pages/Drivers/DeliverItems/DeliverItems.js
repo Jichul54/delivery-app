@@ -18,7 +18,7 @@ export default function DeliverItems() {
   // 今日の日付取得
   const date = new Date();
   date.setDate(date.getDate());
-  const today = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  const today = date.getFullYear().toString().padStart(4, '0') + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
   console.log(today);
 
   // 全てのorder取得
@@ -67,7 +67,8 @@ export default function DeliverItems() {
           if (user_id !== this_order.user) {
             user_ids.push({
               user_id: user_id,
-              delivery_ids: [order.id]
+              delivery_ids: [order.id],
+              order_ids: [this_order.id]
             })
           } else {
             user_ids[index].delivery_ids.push(order.id);
@@ -77,7 +78,8 @@ export default function DeliverItems() {
       } else {
         user_ids.push({
           user_id: this_order.user,
-          delivery_ids: [order.id]
+          delivery_ids: [order.id],
+          order_ids: [this_order.id]
         });
       }
     }) // order_ids.forEach
@@ -99,7 +101,8 @@ export default function DeliverItems() {
             name: json.username,
             address: json.address,
             email: json.email,
-            delivery_ids: user.delivery_ids
+            delivery_ids: user.delivery_ids,
+            order_ids: user.order_ids
           }])
         })
         .catch(() => alert('error'));
@@ -109,21 +112,24 @@ export default function DeliverItems() {
   }
 
 
-  let email;
   // 完了ボタンクリック時
   const handleClickDelivered = (itemList, index) => {
     const newStatus = status.slice();
     newStatus[index] = 'delivered';
     setStatus(newStatus);
-    console.log(itemList[index].email);
+    console.log(itemList[index].order_ids);
 
-    if (itemList.length > index + 2) {
-      email = itemList[index+2].email;
-      console.log(email)
-    }
     // メール送るAPI
+    if (itemList.length > index + 2) {
+      let order_list = itemList[index+2].order_ids;
+      console.log(order_list);
+    }
 
     // 配送ステータス変更API
+    let delivery_list = itemList[index].delivery_ids;
+    delivery_list.forEach(delivery => {
+      console.log(delivery);
+    });
   }
 
   // 不在ボタンクリック時
@@ -132,13 +138,17 @@ export default function DeliverItems() {
     newStatus[index] = 'absent';
     setStatus(newStatus);
 
-    if (itemList.length > index + 2) {
-      email = itemList[index+2].email;
-      console.log(email)
-    }
     // メール送るAPI
+    if (itemList.length > index + 2) {
+      let order_list = itemList[index+2].order_ids;
+      console.log(order_list)
+    }
 
     // 配送ステータス変更API
+    let delivery_list = itemList[index].delivery_ids;
+    delivery_list.forEach(delivery => {
+      console.log(delivery);
+    });
   }
 
   // 配達完了ボタンクリック時
