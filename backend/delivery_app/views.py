@@ -217,7 +217,7 @@ class NotificationView(APIView):
         subject = "明日配達される荷物があります"
         from_email = "mojyamodjyango@mojya.com"
         for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
-            text_content = "明日届く荷物があります。\n"+username[i]+"さん、今すぐログインして明日届く荷物を確認しましょう！\n\nURL:https:/~~~"
+            text_content = "明日届く荷物があります。\n"+username[i]+"さん、今すぐログインして明日届く荷物を確認しましょう！\n\nURL:\nhttps:/~~~"
             send_mail(subject, text_content, from_email, recipient_list[i])
         return Response(1, status=status.HTTP_201_CREATED)
 
