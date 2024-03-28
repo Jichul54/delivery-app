@@ -142,8 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # メールサーバーの設定
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'#バックエンドにメールを送信する方
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'#バックエンドにメールを送信する方
 # EMAIL_HOST = 'smtpサーバー'
 # EMAIL_HOST_USER = 'デフォルトのEmailアドレス'
 # EMAIL_HOST_PASSWORD = 'メールサーバーのパスワード'
