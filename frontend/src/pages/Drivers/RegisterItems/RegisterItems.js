@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { arrayMoveImmutable } from 'array-move';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography } from '@mui/material';
+import { IconButton, Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button, Typography, Collapse, Alert } from '@mui/material';
 import AppBarDriver from '../../../components/AppBar_Driver';
 import { Container, Draggable } from 'react-smooth-dnd';
 import { MuiFileInput } from 'mui-file-input';
-import { useNavigate } from 'react-router-dom';
 import { MyProxy } from '../../../api/proxy';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export default function RegisterItems() {
@@ -15,10 +15,11 @@ export default function RegisterItems() {
   const driver_id = sessionStorage.getItem('user_id');
   console.log(driver_id);
 
-  const navigate = useNavigate();
   const [ items, setItems ] = React.useState([]); // 表示するリスト（ユーザーのデータと荷物の個数）
   const [ allOrders, setAllOrders ] = React.useState([]) // APIで取得する注文情報
   const [ postInfo, setPostInfo ] = React.useState([]); // POST用データ
+  const [ status, setStatus ] = React.useState(true); // リストのドラッグの有無
+  const [open, setOpen] = React.useState(false); // アラート表示の有無
 
   // 明日の日付取得
   const date = new Date();
@@ -79,7 +80,7 @@ export default function RegisterItems() {
         console.log(order_id);
         const this_order = allOrders.find(({ id }) => id === order_id );
         console.log(this_order);
-        // お届け日が明日の時、リストに追加
+        // お届け日が明日の時、リストに追加（念のため）
         // if (this_order.delivery_date === tmrw) {
         if (this_order.delivery_date === '2024-03-31') {
           // user_idsが空ではないとき
@@ -150,7 +151,7 @@ export default function RegisterItems() {
   }
 
   // 登録ボタン押下時
-  const handleClick = (postInfo, items) => {
+  const handleClick = (postInfo, order_ids) => {
     console.log(items)
     postInfo.forEach((value) => {
       console.log(value);
@@ -177,56 +178,90 @@ export default function RegisterItems() {
       })
       .catch(() => alert('error'))
     });
-    let emails = [];
-    items.forEach(({ email }) => emails.push(email))
-    console.log(emails);
 
-    // 確認画面へ遷移
-    navigate(`/confirm-items`);
+    // リストの表示変更
+    setStatus(false);
+
+    // アラート表示
+    setOpen(true);
+
+    // メール送信API
+
   }
 
   return (
     <div>
       <AppBarDriver />
       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center', flexGrow:1 }}>
-        <Stack direction='column'>
-          <Typography>ファイル選択</Typography>
-          <MuiFileInput 
-            value={file} 
-            placeholder='ファイルを選択してください。' 
-            inputProps={{ accept: '.csv' }} 
-            sx={{ mb:2 }}
-            onChange={handleChange} 
-          />
-          <List sx={{ width:'100%' }}>
-            <Container dragHandleSelecter='.drag-handle' lockAxis='y' onDrop={onDrop}>
-              {items.map(({ name, address, orders }, index) => (
-                <Draggable key={index}>
-                  <ListItem
-                    secondaryAction={
-                      <IconButton edge='end' aria-label='drag-handle'>
-                        <DragIndicatorIcon />
-                      </IconButton>
-                    }
+        {status ?
+          <Stack direction='column'>
+            <Typography>ファイル選択</Typography>
+            <MuiFileInput 
+              value={file} 
+              placeholder='ファイルを選択してください。' 
+              inputProps={{ accept: '.csv' }} 
+              sx={{ mb:2 }}
+              onChange={handleChange} 
+            />
+            <List sx={{ width:'100%' }}>
+              <Container dragHandleSelecter='.drag-handle' lockAxis='y' onDrop={onDrop}>
+                {items.map(({ name, address, orders }, index) => (
+                  <Draggable key={index}>
+                    <ListItem
+                      secondaryAction={
+                        <IconButton edge='end' aria-label='drag-handle'>
+                          <DragIndicatorIcon />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemAvatar sx={{ bgcolor:'white', color:'black' }}>{index+1}</ListItemAvatar>
+                      <ListItemText sx={{ flexGrow:1 }} primary={name + '  ' + orders.length + '個'} secondary={address} />
+                    </ListItem>
+                  </Draggable>
+                ))}
+              </Container>
+            </List>
+            {items.length > 0 &&
+              <Button
+                size='large'
+                color='primary'
+                variant='contained'
+                onClick={() => handleClick(postInfo, order_ids)}
+              >
+                登録
+              </Button>
+            }
+          </Stack>
+        :
+          <Box>
+            <Collapse in={open}>
+              <Alert 
+                variant="filled" 
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {setOpen(false)}}
                   >
-                    <ListItemAvatar sx={{ bgcolor:'white', color:'black' }}>{index+1}</ListItemAvatar>
-                    <ListItemText sx={{ flexGrow:1 }} primary={name + '  ' + orders.length + '個'} secondary={address} />
-                  </ListItem>
-                </Draggable>
+                    <CloseIcon fontSize='inherit' />
+                  </IconButton>
+                }
+                sx={{ mb:2 }}
+              >
+                登録が完了しました。
+              </Alert>
+            </Collapse>
+            <List sx={{ width:'100%' }}>
+              {items.map(({ name, address, orders }, index) => (
+                <ListItem key={ index }>
+                  <ListItemAvatar sx={{ bgcolor:'white', color:'black' }}>{index+1}</ListItemAvatar>
+                  <ListItemText sx={{ flexGrow:1 }} primary={name + '  ' + orders.length + '個'} secondary={address} />
+                </ListItem>
               ))}
-            </Container>
-          </List>
-          {items.length > 0 &&
-            <Button
-              size='large'
-              color='primary'
-              variant='contained'
-              onClick={() => handleClick(postInfo, items)}
-            >
-              登録
-            </Button>
-          }
-        </Stack>
+            </List>
+          </Box>
+        }
       </Box>
     </div>
   );
