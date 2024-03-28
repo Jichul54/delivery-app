@@ -10,6 +10,7 @@ const Test = () => {
         const result = await postTestMessage(message);
         if (result) {
             // 成功時のロジック
+            console.log(result);
             alert(`成功メッセージ: ${result.message}`);
         } else {
             // 失敗時のロジック

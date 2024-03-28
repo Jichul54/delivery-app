@@ -1,11 +1,10 @@
+import * as React from 'react';
 import { Button, Card, CardHeader, CardContent, Container, TextField } from '@mui/material';
-import { buttonOnClick } from '../../functions/functions';
-import { useState } from 'react';
 
 export default function SettingPassword() {
 
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [password, setPassword] = React.useState('');
+  const [password2, setPassword2] = React.useState('');
 
   const handleSubmit = async () => {
     // バリデーション確認

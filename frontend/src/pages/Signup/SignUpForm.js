@@ -1,18 +1,18 @@
+import * as React from 'react';
 import { Container, Card, CardContent, Stack, CardHeader, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 export default function SignUpForm() {
   
   const navigate = useNavigate();
-  const [lastname, setLastname] = useState('');
-  const [firstname, setFirstname] = useState('');
-  // const [username, setUsername] = useState('');
-  const [post_code, setPost_code] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [buildings, setBuildings] = useState('');
-  const [email, setEmail] = useState('');
+  const [lastname, setLastname] = React.useState('');
+  const [firstname, setFirstname] = React.useState('');
+  // const [username, setUsername] = React.useState('');
+  const [post_code, setPost_code] = React.useState('');
+  const [address1, setAddress1] = React.useState('');
+  const [address2, setAddress2] = React.useState('');
+  const [buildings, setBuildings] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
   const handleSubmit = async () => {
     // バリデーション確認
@@ -32,7 +32,7 @@ export default function SignUpForm() {
     <div className='SingUp'>
       <Container maxWidth='xs'>
         <Card variant='outlined' sx={{ pt:2, my:6 }}>
-          <CardHeader title='新規会員登録'/>
+          <CardHeader title='新規会員登録' sx={{ textAlign:'center' }}/>
           <CardContent
             sx={{
               display: 'grid',
@@ -63,11 +63,12 @@ export default function SignUpForm() {
                 id='post_code' 
                 label='郵便番号' 
                 size='medium'
+                sx={{ width:'100%' }}
                 value={ post_code }
                 required
                 onChange={(e) => setPost_code(e.target.value)}
               />
-              <Button variant='outlined' sx={{height:'75%'}}>検索</Button>
+              <Button>検索</Button>
             </Stack>
             <TextField 
               id='adress1' 
@@ -113,7 +114,7 @@ export default function SignUpForm() {
             <Button
               size='small'
               sx={{ height:'50%' }}
-              onClick={() => {navigate('/login-users')}}
+              onClick={() => {navigate('/login')}}
             >
               既にアカウントをお持ちの場合
             </Button>

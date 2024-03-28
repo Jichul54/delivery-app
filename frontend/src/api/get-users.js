@@ -1,18 +1,10 @@
 import { MyProxy } from './proxy';
 
-
-// メッセージをサーバーにPOSTする非同期関数
-export async function postTestMessage(message) {
-  console.log(MyProxy + 'api/test/');
-  console.log('test')
+export async function getUsers() {
   try {
-    const response = await fetch(MyProxy + 'api/test/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: message }),
-    });
+    const params = { role_id: 1};
+    const query = new URLSearchParams(params);
+    const response = await fetch(MyProxy + 'users?' + query);
 
     const data = await response.json();
 
