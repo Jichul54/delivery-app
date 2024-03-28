@@ -2,7 +2,6 @@ import * as React from 'react';
 import AppBarDriver from '../../../components/AppBar_Driver';
 import { Box, Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import ItemList from "../../../components/ItemList";
 
 export default function DeliveryCompleted() {
 
@@ -32,9 +31,6 @@ export default function DeliveryCompleted() {
             </Alert>
           </Collapse>
         </Box>
-      </Box>
-      <Box sx={{ display:'flex', justifyContent:'center', flexGrow:1 }}>
-        {/* <ItemList /> */}
       </Box>
     </div>
   )

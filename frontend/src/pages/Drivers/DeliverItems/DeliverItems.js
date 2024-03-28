@@ -15,6 +15,11 @@ export default function DeliverItems() {
   const [delivery, setDelivery] = React.useState(false); // 配達中かどうか
   const navigate = useNavigate();
 
+  // 今日の日付取得
+  const date = new Date();
+  date.setDate(date.getDate());
+  const today = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  console.log(today);
 
   // 全てのorder取得
   React.useEffect(() => {
@@ -30,7 +35,8 @@ export default function DeliverItems() {
   }, [])
 
   // 配達物取得
-  const params = { delivery_date:'2024-03-30', user: driver_id} ;
+  // const params = { delivery_date: today, user: driver_id }
+  const params = { delivery_date: '2024-03-30', user: driver_id} ;
   const query = new URLSearchParams(params);
   React.useEffect(() => {
     fetch(MyProxy + 'delivery?' + query, {
