@@ -9,6 +9,7 @@ import ViewItems from './pages/Drivers//ViewItems';
 import HomeDriver from './pages/Drivers/HomeDriver';
 import DeliveryCompleted from './pages/Drivers/DeliverItems/DeliveryCompleted';
 import ConfirmItems from './pages/Drivers/RegisterItems/ConfirmItems';
+import HomeUser from './pages/Users/HomeUser';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path={`/home-driver`} element={<HomeDriver />} />                   {/* ドライバーホーム画面 */}
         <Route path={`/delivery-completed`} element={<DeliveryCompleted />} />     {/* 配達完了画面 */}
         <Route path={`/confirm-items`} element={<ConfirmItems />} />               {/* 登録完了画面 */}
+        <Route path={`/home-user`} element={<HomeUser />} />                       {/* ユーザー画面 */}
       </Routes>
     </BrowserRouter>
   );

@@ -30,6 +30,7 @@ export default function LoginForm() {
       sessionStorage.setItem('user_id', result.id);
       if (result.role === 1) {
         // ユーザー画面に遷移
+        navigate(`home-user`);
       } else if (result.role === 3) {
         // ドライバー画面に遷移
         navigate(`/home-driver`);
