@@ -18,6 +18,7 @@ import * as React from 'react';
    const [ checkingItem, setCheckingItem ] = React.useState(null); // ダイアログで開いてるorder
    const [ selectOpen, setSelectOpen ] = React.useState(false); // 日付選択のダイアログ
    const [ selectedDate, setSelectedDate ] = React.useState(''); // 選択された日付
+   const [ noDelivery, setNoDelivery ] = React.useState(false); // 配達物がないとき
 
    // 明日の日付取得
    const date = new Date();
@@ -93,7 +94,8 @@ import * as React from 'react';
      })
      console.log(myItems);
      if (myItems.length === 0) {
-       alert('明日配達する荷物はありません。')
+       alert('明日配達する荷物はありません。');
+       setNoDelivery(true);
      }
      setMyDelivery(myItems);
      setItemStatus(Array(myItems.length).fill(true));
@@ -140,34 +142,43 @@ import * as React from 'react';
 
    // 日付確定時
    const handleSelectDate = (checkingItem, myDelivery, itemStatus, selectedDate,  myOrders) => {
-     // myDelivery更新
-     const newMyDelivery = myDelivery.slice();
-     newMyDelivery.splice(checkingItem.index, 1)
-     console.log(newMyDelivery);
-     setMyDelivery(newMyDelivery);
-     setSelectOpen(false);
+    // 日時が選択されてないとき
+    if (selectedDate === '') {
+      alert('日付を選択してください。');
+      return;
+    }
 
-     // 受け取り確認ボタン非表示
-     let newItemStatus = itemStatus.slice();
-     newItemStatus[checkingItem.index] = false;
-     setItemStatus(newItemStatus);
+    // myDelivery更新
+    const newMyDelivery = myDelivery.slice();
+    newMyDelivery.splice(checkingItem.index, 1)
+    console.log(newMyDelivery);
+    setMyDelivery(newMyDelivery);
+    setSelectOpen(false);
 
-     // API更新
-     const body = myOrders.find(({ id }) => id === checkingItem.delivery.order)
-     body.delivery_date = selectedDate;
-     console.log(body);
-     fetch(MyProxy + 'order/' + checkingItem.delivery.order, {
-       method: 'PUT',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify(body)
-     })
-     .then((res) => {
-       console.log(res.status)
-       return res.json()
-     }).then((json) => {console.log(json)})
-     .catch(() => alert('error'));
+    // 受け取り確認ボタン非表示
+    let newItemStatus = itemStatus.slice();
+    newItemStatus[checkingItem.index] = false;
+    setItemStatus(newItemStatus);
+
+    // API更新
+    const body = myOrders.find(({ id }) => id === checkingItem.delivery.order)
+    body.delivery_date = selectedDate;
+    console.log(body);
+    fetch(MyProxy + 'order/' + checkingItem.delivery.order, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    })
+    .then((res) => {
+      console.log(res.status)
+      return res.json()
+    }).then((json) => {console.log(json)})
+    .catch(() => alert('error'));
+
+    // 注文情報がないとき
+    setNoDelivery(true);
    }
 
 
@@ -176,15 +187,10 @@ import * as React from 'react';
        <AppBar component='nav'>
          <Paper elevation={2}>
            <Toolbar>
-             <Typography variant='body1' component='div'>
+             <Typography variant='body1' component='div' sx={{ flexGrow:1 }}>
                モジャモdjango
              </Typography>
-           </Toolbar>
-         </Paper>
-       </AppBar>
-       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center', flexGrow:1 }}>
-         <Stack direction='column' sx={{display:'flex', justifyContent:'center'}}>
-           {userInfo &&
+             {userInfo &&
              <List>
                <ListItem key='user_info'>
                  <ListItemAvatar>
@@ -196,6 +202,11 @@ import * as React from 'react';
                </ListItem>
              </List>
            }
+           </Toolbar>
+         </Paper>
+       </AppBar>
+       <Box sx={{ display:'flex', mt:'120px', justifyContent:'center', px:'40%' }}>
+         <Stack direction='column' sx={{display:'flex', justifyContent:'center', flexGrow:1 }}>
            {status ?
              <Button
                variant='outlined'
@@ -205,7 +216,7 @@ import * as React from 'react';
                明日届く荷物を確認する
              </Button>
              :
-             <List sx={{ width:'100%' }}>
+             <List sx={{ display:'flex', flexGrow:1, justifyContent:'center' }}>
                {myDelivery.map((delivery, index) => (
                  <React.Fragment key={index}>
                    {itemStatus[index] ?
@@ -218,7 +229,7 @@ import * as React from 'react';
                            variant='contained'
                            onClick={() => handleCheck(delivery, index, itemStatus)}
                          >
-                           確認
+                           受け取り確認
                          </Button>
                        }
                      >
@@ -234,6 +245,9 @@ import * as React from 'react';
              </List>
            }
          </Stack>
+         {noDelivery &&
+          <Typography>明日配達する荷物はありません。</Typography>
+         }
          <Backdrop 
            sx={{ color:'black' }}
            open={open}
