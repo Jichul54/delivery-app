@@ -216,9 +216,9 @@ import * as React from 'react';
                明日届く荷物を確認する
              </Button>
              :
-             <List sx={{ display:'flex', flexGrow:1, justifyContent:'center' }}>
+             <List sx={{ width:'100%' }}>
                {myDelivery.map((delivery, index) => (
-                 <React.Fragment key={index}>
+                 <Box key={index}>
                    {itemStatus[index] ?
                      <ListItem
                        key={'before' + delivery.id}
@@ -240,7 +240,7 @@ import * as React from 'react';
                        <ListItemText primary={'注文番号：' + delivery.order} />
                      </ListItem>
                    }
-                 </React.Fragment>
+                 </Box>
                ))}
              </List>
            }
