@@ -2,6 +2,7 @@ import * as React from 'react';
  import { AppBar, Paper, Toolbar, Typography, Box, List, ListItem, Stack, ListItemAvatar, Avatar, ListItemText, Button, Backdrop, Dialog, DialogTitle, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
  import AccountCircleIcon from '@mui/icons-material/AccountCircle';
  import { MyProxy } from '../../api/proxy';
+ import { updateDeliveryStatus } from '../../api/update-delivery-status';
 
  export default function HomeUser() {
 
@@ -66,7 +67,7 @@ import * as React from 'react';
    }, []);
 
    // 配送情報取得
-   const params = { delivery_date:'2024-03-30', user:1 };
+   const params = { delivery_date:'2024-03-31', user:user_id };
    const query = new URLSearchParams(params);
    React.useEffect(() => {
      fetch(MyProxy + 'delivery?' + query, {
@@ -128,9 +129,20 @@ import * as React from 'react';
    }
 
    // 荷物受け取りが可能
-   const handleRecieve = (checkingItem, itemStatus) => {
+   const handleRecieve = async (checkingItem, itemStatus) => {
      console.log(checkingItem.delivery);
+     const this_delivery = checkingItem.delivery;
+     this_delivery.delivery_status = 3;
+     const delivery_id = this_delivery.id;
+     delete this_delivery.id;
      // APIで更新
+     const result = await updateDeliveryStatus(this_delivery, delivery_id)
+      if (result) {
+        // 成功
+        console.log('成功', result);
+      } else {
+        console.log('失敗');
+      }
 
      // 受け取り確認ボタン非表示
      let newItemStatus = itemStatus.slice();
@@ -141,7 +153,7 @@ import * as React from 'react';
    }
 
    // 日付確定時
-   const handleSelectDate = (checkingItem, myDelivery, itemStatus, selectedDate,  myOrders) => {
+   const handleSelectDate = async (checkingItem, myDelivery, itemStatus, selectedDate,  myOrders) => {
     // 日時が選択されてないとき
     if (selectedDate === '') {
       alert('日付を選択してください。');
@@ -154,11 +166,6 @@ import * as React from 'react';
     console.log(newMyDelivery);
     setMyDelivery(newMyDelivery);
     setSelectOpen(false);
-
-    // 受け取り確認ボタン非表示
-    let newItemStatus = itemStatus.slice();
-    newItemStatus[checkingItem.index] = false;
-    setItemStatus(newItemStatus);
 
     // API更新
     const body = myOrders.find(({ id }) => id === checkingItem.delivery.order)
@@ -174,11 +181,29 @@ import * as React from 'react';
     .then((res) => {
       console.log(res.status)
       return res.json()
-    }).then((json) => {console.log(json)})
+    }).then((json) => {
+      console.log(json)
+      setSelectedDate('');
+    })
     .catch(() => alert('error'));
 
+    const this_delivery = checkingItem.delivery;
+    this_delivery.delivery_status = 5;
+    const delivery_id = this_delivery.id;
+    delete this_delivery.id;
+    // APIで更新
+    const result = await updateDeliveryStatus(this_delivery, delivery_id)
+    if (result) {
+      // 成功
+      console.log('成功', result);
+    } else {
+      console.log('失敗');
+    }
+
     // 注文情報がないとき
-    setNoDelivery(true);
+    if (newMyDelivery.length === 0) {
+      setNoDelivery(true);
+    }
    }
 
 
