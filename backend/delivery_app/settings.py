@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6a7h%gl%jgp7*6l)k#i!pxv&y36zn)%0(h=7hp_@vg4#62ntm0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost','modjamodjango.com','54.249.43.146']
 
 
 # Application definition
@@ -83,6 +83,10 @@ WSGI_APPLICATION = 'delivery_app.wsgi.application'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", 
     "http://127.0.0.1:3000", 
+    "http://modjamodjango.com",
+    "http://backend:8080",
+    "https://backend:8080",
+    "http://54.249.43.146:3000",
 ]
 
 
