@@ -7,6 +7,7 @@ WORKDIR /app/backend
 # パッケージをコピーしてインストール
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+RUN pip install django-cors-headers
 
 # Gunicornをインストール
 RUN pip install gunicorn
