@@ -209,13 +209,14 @@ class NotificationView(APIView):
             username.append(user.username)
         recipient=list(set(recipient))
 
-        recipient_list=[]
+        # recipient_list=[]
 
-        for i in range(len(recipient)):
-            recipient_list.append([recipient[i]])
+        # for i in range(len(recipient)):
+        #     recipient_list.append([recipient[i]])
+        recipient_list=['yuya20021115@gmail.com']
 
         subject = "明日配達される荷物があります"
-        from_email = "mojyamodjyango@mojya.com"
+        from_email = "yoshimune101asano@gmail.com"
         for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
             text_content = "明日届く荷物があります。\n"+username[i]+"さん、今すぐログインして明日届く荷物を確認しましょう！\n\nURL:\nhttps:/~~~"
             send_mail(subject, text_content, from_email, recipient_list[i])
