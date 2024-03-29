@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
+from django.core.mail import send_mail
 
 class TestAPIView(APIView):
     def post(self, request, format=None):
@@ -175,4 +176,48 @@ class DeliveryView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self,request,pk):
+        # 配達情報の更新
+        try:
+            delivery = Delivery.objects.get(pk=pk)
+        except Delivery.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DeliverySerializer(delivery, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+###########################
+# メール送信処理（/users/notification）
+###########################
+class NotificationView(APIView):
+    def get(self,request):
+        order_id = request.data.get('order_id')
+        # order_id = [4,12,4,4]
+
+        recipient=[]
+        username=[]
+
+        for i in order_id: #受け取るorder_idがリスト型の時
+            order=Order.objects.get(pk=i)
+            user_id = int(order.user_id)
+            user=User.objects.get(pk=user_id)
+            recipient.append(user.email)
+            username.append(user.username)
+        recipient=list(set(recipient))
+
+        recipient_list=[]
+
+        for i in range(len(recipient)):
+            recipient_list.append([recipient[i]])
+
+        subject = "明日配達される荷物があります"
+        from_email = "mojyamodjyango@mojya.com"
+        for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
+            text_content = "明日届く荷物があります。\n"+username[i]+"さん、今すぐログインして明日届く荷物を確認しましょう！\n\nURL:\nhttps:/~~~"
+            send_mail(subject, text_content, from_email, recipient_list[i])
+        return Response(1, status=status.HTTP_201_CREATED)
 
