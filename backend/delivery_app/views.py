@@ -220,3 +220,4 @@ class NotificationView(APIView):
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response("order_idが指定されていません", status=status.HTTP_400_BAD_REQUEST)
+
