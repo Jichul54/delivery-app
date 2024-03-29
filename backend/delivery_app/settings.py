@@ -146,7 +146,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # メールサーバーの設定
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'#バックエンドにメールを送信する方
 # EMAIL_HOST = 'smtpサーバー'
 # EMAIL_HOST_USER = 'デフォルトのEmailアドレス'
@@ -154,9 +154,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_PORT = '1025' #メールサーバーで指定されているポート
 # EMAIL_USE_TLS = True # 送信中の文章を暗号化
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'system@example.com'
+DEFAULT_FROM_EMAIL = 'yoshimune101asano@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yoshimune101asano@gmail.com'
+EMAIL_HOST_PASSWORD = 'ympkkmbxrmliqtot'
+EMAIL_USE_TLS = True
