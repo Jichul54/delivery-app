@@ -7,6 +7,7 @@ import { Container, Draggable } from 'react-smooth-dnd';
 import { MuiFileInput } from 'mui-file-input';
 import { MyProxy } from '../../../api/proxy';
 import CloseIcon from '@mui/icons-material/Close';
+import { sendEmail } from '../../../api/send-email';
 
 
 export default function RegisterItems() {
@@ -41,7 +42,10 @@ export default function RegisterItems() {
       console.log(res.status) // 200
       return res.json()
     })
-    .then((json) => setAllOrders(json))
+    .then((json) => {
+      console.log(json);
+      setAllOrders(json)
+    })
     .catch(() => alert('error'));
     
     return () => {
@@ -116,6 +120,7 @@ export default function RegisterItems() {
       console.log('post_info', post_info);
       setPostInfo(post_info);
 
+      let items_data = [];
       // ユーザー情報取得
       user_ids.forEach((user) => {
         fetch(MyProxy + 'user/' + user.user_id, {
@@ -130,13 +135,15 @@ export default function RegisterItems() {
         })
         .then((json) => {
           console.log(json);
-          setItems([...items, {
+          items_data.push({
             user_id: user.user_id,
             name: json.username,
             address: json.address,
             email: json.email,
             orders: user.order_ids
-          }])
+          })
+          console.log(items_data);
+          setItems(items_data);
         })
         .catch(() => alert('error'));
       })
@@ -151,7 +158,7 @@ export default function RegisterItems() {
   }
 
   // 登録ボタン押下時
-  const handleClick = (postInfo, order_ids) => {
+  const handleClick = async (postInfo, order_ids) => {
     console.log(items)
     postInfo.forEach((value) => {
       console.log(value);
@@ -177,6 +184,9 @@ export default function RegisterItems() {
         console.log(json);
       })
       .catch(() => alert('error'))
+
+      // メール送る
+      sendEmail(value.order);
     });
 
     // リストの表示変更
@@ -186,6 +196,16 @@ export default function RegisterItems() {
     setOpen(true);
 
     // メール送信API
+    // let order_list = itemList[index].order_ids;
+    // console.log(order_list);
+    // const result = await sendEmail(order_list);
+    // if (result) {
+    //   // 成功時のロジック
+    //   console.log('成功', result);
+    // } else {
+    //   // 失敗時のロジック
+    //   console.log('失敗');
+    // }
 
   }
 

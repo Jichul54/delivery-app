@@ -62,12 +62,17 @@ export default function DeliverItems() {
   }, [])
 
   // 配達開始ボタン押下時
-  function StartDelivering(allOrders, orders) {
+  async function StartDelivering(allOrders, orders) {
+
+    // email送信用
+    let order_ids = [];
+
     let user_ids = [];
     orders.map(( order ) => {
       // order_idが一致する商品を探す
       const this_order = allOrders.find(({ id }) => id === order.order );
       console.log(this_order);
+
       // user_idに同じuser_idがいない
       if (user_ids.length !== 0) {
         user_ids.map(({ user_id }, index) => {
@@ -89,32 +94,42 @@ export default function DeliverItems() {
           order_ids: [this_order.id]
         });
       }
-    }) // order_ids.forEach
+    }) // orders.map
 
+    let items_data = [];
     // ユーザー情報取得
     // React.useEffect(() => {
-      user_ids.map((user) => {
-        fetch(MyProxy + 'user/' + user.user_id, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(json);
-          setItemList([...itemList, {
-            user_id: user.user_id,
-            name: json.username,
-            address: json.address,
-            email: json.email,
-            delivery_ids: user.delivery_ids,
-            order_ids: user.order_ids
-          }])
-        })
-        .catch(() => alert('error'));
+    user_ids.map((user, index) => {
+      fetch(MyProxy + 'user/' + user.user_id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        items_data.push({
+          user_id: user.user_id,
+          name: json.username,
+          address: json.address,
+          email: json.email,
+          delivery_ids: user.delivery_ids,
+          order_ids: user.order_ids
+        })
+        console.log(items_data);
+        setItemList(items_data);
+
+        if (index === 0 || index === 1) {
+            // メール送る
+            sendEmail(user.order_ids);
+        }
+      })
+      .catch(() => alert('error'));
+      console.log(order_ids);
+    })
     // }, [])
+    console.log(order_ids);
     setDelivery(true);
   }
 
@@ -171,9 +186,9 @@ export default function DeliverItems() {
     setStatus(newStatus);
 
     // メール送るAPI
-    if (itemList.length > index + 2) {
-      let order_list = itemList[index+2].order_ids;
-      console.log(order_list)
+    // if (itemList.length > index + 2) {
+      let order_list = itemList[index].order_ids;
+      console.log(order_list);
       // API
       const result = await sendEmail(order_list);
       if (result) {
@@ -183,14 +198,20 @@ export default function DeliverItems() {
         // 失敗時のロジック
         console.log('失敗');
       }
-    }
+    // }
 
     // 配送ステータス変更API
     let delivery_list = itemList[index].delivery_ids;
     delivery_list.forEach(async delivery => {
+      console.log(orders);
       console.log(delivery);
+      const this_delivery = orders.find(({ id }) => id === delivery)
+      this_delivery.delivery_status = 6;
+      const delivery_id = this_delivery.id;
+      delete this_delivery.id;
+      console.log(this_delivery);
       // API
-      const result = await updateDeliveryStatus(delivery, 6)
+      const result = await updateDeliveryStatus(this_delivery, delivery_id)
       if (result) {
         // 成功
         console.log('成功', result);
