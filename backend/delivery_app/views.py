@@ -194,30 +194,30 @@ class DeliveryView(APIView):
 # メール送信処理（/users/notification）
 ###########################
 class NotificationView(APIView):
-    def get(self,request):
-        order_id = request.data.get('order_id')
-        # order_id = [4,12,4,4]
+    def get(self, request):
+        order_id = request.query_params.get('order_id')
 
-        recipient=[]
-        username=[]
+        if order_id is not None:
+            try:
+                order = Order.objects.get(pk=order_id)
+                user = User.objects.get(pk=order.user_id)
+                recipient_email = user.email
+                username = user.username
 
-        for i in order_id: #受け取るorder_idがリスト型の時
-            order=Order.objects.get(pk=i)
-            user_id = int(order.user_id)
-            user=User.objects.get(pk=user_id)
-            recipient.append(user.email)
-            username.append(user.username)
-        recipient=list(set(recipient))
+                subject = "配送のお知らせがあります"
+                from_email = "yoshimune101asano@gmail.com"
+                message = f"配送のお知らせがあります。\n{username}さん、今すぐログインして確認しましょう！\n\nURL:\n http://modjamodjango.com"
+                
+                # メール送信
+                send_mail(subject, message, from_email, ["yuya20021115@gmail.com"])
 
-        recipient_list=[]
-
-        for i in range(len(recipient)):
-            recipient_list.append([recipient[i]])
-
-        subject = "明日配達される荷物があります"
-        from_email = "mojyamodjyango@mojya.com"
-        for i in range(len(recipient_list)): #一気にメールを送ると一緒に送信されたメールもユーザーから確認できるようだったため
-            text_content = "明日届く荷物があります。\n"+username[i]+"さん、今すぐログインして明日届く荷物を確認しましょう！\n\nURL:\nhttp://modjamodjango.com"
-            send_mail(subject, text_content, from_email, recipient_list[i])
-        return Response(1, status=status.HTTP_201_CREATED)
+                return Response("メールが送信されました", status=status.HTTP_201_CREATED)
+            except Order.DoesNotExist:
+                return Response("指定された注文が見つかりません", status=status.HTTP_400_BAD_REQUEST)
+            except User.DoesNotExist:
+                return Response("指定されたユーザーが見つかりません", status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response("order_idが指定されていません", status=status.HTTP_400_BAD_REQUEST)
 

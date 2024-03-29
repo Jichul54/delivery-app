@@ -3,6 +3,8 @@ import { Box, Stack, List, ListItem, ListItemText, ListItemAvatar, Button } from
 import AppBarDriver from '../../../components/AppBar_Driver';
 import { useNavigate } from 'react-router-dom';
 import { MyProxy } from '../../../api/proxy';
+import { sendEmail } from '../../../api/send-email';
+import { updateDeliveryStatus } from '../../../api/update-delivery-status';
 
 export default function DeliverItems() {
 
@@ -30,7 +32,10 @@ export default function DeliverItems() {
       }
     })
     .then((res) => res.json())
-    .then((json) => setAllOrders(json))
+    .then((json) => {
+      console.log(json);
+      setAllOrders(json);
+  })
     .catch(() => alert('error'));
   }, [])
 
@@ -48,7 +53,9 @@ export default function DeliverItems() {
     .then((res) => res.json())
     .then((json) => {
       console.log(json);
-      setOrders(json.sort((a, b) => a.delivery_route_no > b.delivery_route_no ? 1 : -1 ));
+      // キャンセルされてないもののみ抽出
+      let uncancelled_delivery = json.filter(({ delivery_status }) => delivery_status !== 5)
+      setOrders(uncancelled_delivery.sort((a, b) => a.delivery_route_no > b.delivery_route_no ? 1 : -1 ));
       setStatus(Array(json.length).fill(''));
     })
     .catch(() => alert('error'));
@@ -57,9 +64,9 @@ export default function DeliverItems() {
   // 配達開始ボタン押下時
   function StartDelivering(allOrders, orders) {
     let user_ids = [];
-    orders.map(({ order }) => {
+    orders.map(( order ) => {
       // order_idが一致する商品を探す
-      const this_order = allOrders.find(({ id }) => id === order );
+      const this_order = allOrders.find(({ id }) => id === order.order );
       console.log(this_order);
       // user_idに同じuser_idがいない
       if (user_ids.length !== 0) {
@@ -113,27 +120,52 @@ export default function DeliverItems() {
 
 
   // 完了ボタンクリック時
-  const handleClickDelivered = (itemList, index) => {
+  const handleClickDelivered = async (itemList, index) => {
     const newStatus = status.slice();
     newStatus[index] = 'delivered';
     setStatus(newStatus);
     console.log(itemList[index].order_ids);
+    console.log(itemList[index].delivery_ids);
 
     // メール送るAPI
-    if (itemList.length > index + 2) {
-      let order_list = itemList[index+2].order_ids;
+    // if (itemList.length > index + 2) {
+    //   let order_list = itemList[index+2].order_ids;
+      let order_list = itemList[index].order_ids;
       console.log(order_list);
-    }
+      // API
+      const result = await sendEmail(order_list);
+      if (result) {
+        // 成功時のロジック
+        console.log('成功', result);
+      } else {
+        // 失敗時のロジック
+        console.log('失敗');
+      }
+    // }
 
     // 配送ステータス変更API
     let delivery_list = itemList[index].delivery_ids;
-    delivery_list.forEach(delivery => {
+    delivery_list.forEach(async delivery => {
+      console.log(orders);
       console.log(delivery);
+      const this_delivery = orders.find(({ id }) => id === delivery)
+      this_delivery.delivery_status = 4;
+      const delivery_id = this_delivery.id;
+      delete this_delivery.id;
+      console.log(this_delivery);
+      // API
+      const result = await updateDeliveryStatus(this_delivery, delivery_id)
+      if (result) {
+        // 成功
+        console.log('成功', result);
+      } else {
+        console.log('失敗');
+      }
     });
   }
 
   // 不在ボタンクリック時
-  const handleClickAbsent = (itemList, index) => {
+  const handleClickAbsent = async (itemList, index) => {
     const newStatus = status.slice();
     newStatus[index] = 'absent';
     setStatus(newStatus);
@@ -142,12 +174,29 @@ export default function DeliverItems() {
     if (itemList.length > index + 2) {
       let order_list = itemList[index+2].order_ids;
       console.log(order_list)
+      // API
+      const result = await sendEmail(order_list);
+      if (result) {
+        // 成功時のロジック
+        console.log('成功', result);
+      } else {
+        // 失敗時のロジック
+        console.log('失敗');
+      }
     }
 
     // 配送ステータス変更API
     let delivery_list = itemList[index].delivery_ids;
-    delivery_list.forEach(delivery => {
+    delivery_list.forEach(async delivery => {
       console.log(delivery);
+      // API
+      const result = await updateDeliveryStatus(delivery, 6)
+      if (result) {
+        // 成功
+        console.log('成功', result);
+      } else {
+        console.log('失敗');
+      }
     });
   }
 
@@ -173,14 +222,14 @@ export default function DeliverItems() {
                       <Stack direction='row' edge='end'>
                         <Button
                           variant='outlined'
-                          onClick={() => handleClickDelivered(itemList, index)}
+                          onClick={() => handleClickDelivered(itemList, index, orders)}
                         >
                           完了
                         </Button>
                         <Button
                           variant='outlined'
                           color='error'
-                          onClick={() => handleClickAbsent(itemList, index)}
+                          onClick={() => handleClickAbsent(itemList, index, orders)}
                         >
                           不在
                         </Button>

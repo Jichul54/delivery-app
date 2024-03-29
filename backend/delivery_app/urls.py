@@ -13,5 +13,5 @@ urlpatterns = [
     path('order/<int:pk>', OrderView.as_view(), name='delete and put order'),
     path('delivery', DeliveryView.as_view(), name='delivery'),
     path('delivery/<int:pk>', DeliveryView.as_view(), name='delivery put'),
-    path('/users/notification', NotificationView.as_view(), name='notification'),
+    path('users/notification', NotificationView.as_view(), name='notification'),
 ]
