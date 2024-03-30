@@ -114,7 +114,7 @@ export default function SignUpForm() {
             <Button
               size='small'
               sx={{ height:'50%' }}
-              onClick={() => {navigate('/login')}}
+              onClick={() => {navigate('/')}}
             >
               既にアカウントをお持ちの場合
             </Button>
